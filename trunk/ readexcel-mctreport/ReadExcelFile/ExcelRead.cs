@@ -178,7 +178,7 @@ namespace ReadExcelFile
             }
         }
 
-        public void getManMonthPVGTAM(String filePath, String fileDestPath, String fileProjectStatusPath, Object[] selectedWorkSheets, Object[] selectedColumnIndexes, List<CountryCode> listCountryCodes)
+        public void calculateManMonth(String filePath, String fileDestPath, String fileProjectStatusPath, Object[] selectedWorkSheets, Object[] selectedColumnIndexes, List<CountryCode> listCountryCodes)
         {
             Excel._Workbook excelWBook;
             Excel._Worksheet excelWSheet;
@@ -196,7 +196,7 @@ namespace ReadExcelFile
             try
             {
                 // open the spreadsheet with the source data
-                excelWBook = excelApp.Workbooks.Open(filePath, Type.Missing, true, Type.Missing, Type.Missing, Type.Missing, false, Type.Missing, Type.Missing, false, true, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+                excelWBook = excelApp.Workbooks.Open(filePath, Type.Missing, true, Type.Missing, Type.Missing, Type.Missing, true, Type.Missing, Type.Missing, false, false, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
 
                 // move to the first spreadsheet in the document
                 numberSelectedWorkSheetProcess.Reset();
@@ -214,9 +214,6 @@ namespace ReadExcelFile
                     String[] head = ec.Columns;
                     String cell = null;
 
-                    if (planilha == 4)
-                        planilha = planilha;
-
                     // read all lines in the working spreadsheet
                     for (int rCount = 2; rCount < cellsRange.Rows.Count; rCount++)
                     {
@@ -224,14 +221,9 @@ namespace ReadExcelFile
                         int[] selectedColumns = new int[selectedColumnIndexes.Length];
                         linha = rCount;
 
-                        if (planilha == 4 && linha>75)
-                            planilha = planilha;
-
                         // get all selected columns
                         foreach (int a in selectedColumnIndexes)
-                        {
                             selectedColumns[columnCount++] = a;
-                        }
 
                         m = new Model();
                         ca = new CA(listCountryCodes);
@@ -343,11 +335,6 @@ namespace ReadExcelFile
 
                     linha = counter;
 
-                    if (linha > 761)
-                    {
-                        linha = linha;
-                    }
-
                     // read model name
                     tmp = (string)excelRange.get_Range("A" + counter, "A" + counter).Value2;
                     m.ModelCode = tmp.ToUpper().Trim();
@@ -445,7 +432,6 @@ namespace ReadExcelFile
                 List<Model> listWaitPjts = listModelPjtStatus.FindAll(delegate(Model mm) { return (mm.ModelCAs.ProjectStatus.Equals("WAIT")); });
                 List<Model> listRunningPjts = listModelPjtStatus.FindAll(delegate(Model mm) { return (mm.ModelCAs.ProjectStatus.Equals("RUNNING")); });
 
-                Int32 index = 0;
                 Model mTmp = null;
 
                 foreach (Model mm in listCompletedPjts)

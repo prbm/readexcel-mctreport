@@ -45,7 +45,7 @@
             this.pbWSheetPreview = new System.Windows.Forms.Button();
             this.pbGenManMonthReport = new System.Windows.Forms.Button();
             this.pbHRDelayCalculus = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.pbBrowseExceptionSheet = new System.Windows.Forms.Button();
             this.pbProjectStatusList = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
@@ -149,12 +149,12 @@
             this.pbHRDelayCalculus.UseVisualStyleBackColor = true;
             this.pbHRDelayCalculus.Click += new System.EventHandler(this.pbHRDelayCalculus_Click);
             // 
-            // button2
+            // pbBrowseExceptionSheet
             // 
-            resources.ApplyResources(this.button2, "button2");
-            this.button2.Name = "button2";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            resources.ApplyResources(this.pbBrowseExceptionSheet, "pbBrowseExceptionSheet");
+            this.pbBrowseExceptionSheet.Name = "pbBrowseExceptionSheet";
+            this.pbBrowseExceptionSheet.UseVisualStyleBackColor = true;
+            this.pbBrowseExceptionSheet.Click += new System.EventHandler(this.pbBrowseExceptionSheet_Click);
             // 
             // pbProjectStatusList
             // 
@@ -176,7 +176,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.button1);
             this.Controls.Add(this.pbProjectStatusList);
-            this.Controls.Add(this.button2);
+            this.Controls.Add(this.pbBrowseExceptionSheet);
             this.Controls.Add(this.pbHRDelayCalculus);
             this.Controls.Add(this.pbGenManMonthReport);
             this.Controls.Add(this.pbWSheetPreview);
@@ -217,7 +217,7 @@
         private System.Windows.Forms.Button pbWSheetPreview;
         private System.Windows.Forms.Button pbGenManMonthReport;
         private System.Windows.Forms.Button pbHRDelayCalculus;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button pbBrowseExceptionSheet;
         private System.Windows.Forms.Button pbProjectStatusList;
         private System.Windows.Forms.Button button1;
     }
