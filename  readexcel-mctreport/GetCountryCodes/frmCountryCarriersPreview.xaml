@@ -1,0 +1,11 @@
+﻿<Window x:Class="GetCountryCodes.frmCountryCarriersPreview"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Country &amp; Carrier Get Names" Height="366" Width="525" ResizeMode="NoResize" Icon="/GetCountryCodes;component/Images/fregat-oleg.jpg" WindowStartupLocation="CenterScreen" WindowStyle="SingleBorderWindow" Background="#0062454E">
+    <Grid Background="#FFB4B4B4">
+        <Label Content="_Select columns to be used:" Height="28" HorizontalAlignment="Left" Margin="13,8,0,0" Name="label1" VerticalAlignment="Top" Width="161" />
+        <DataGrid AutoGenerateColumns="True" Height="230" HorizontalAlignment="Left" Margin="12,42,0,0" Name="gridExcelPreview" VerticalAlignment="Top" Width="479" DataContext="{Binding}" CanUserReorderColumns="False" CanUserResizeColumns="False" />
+        <Button Content="_Get country &amp; carrier names" Height="31" HorizontalAlignment="Right" Margin="0,285,12,0" Name="pbGetCountryCarriers" VerticalAlignment="Top" Width="153" Click="pbGetCountryCarriers_Click" />
+        <Button Content="_Browse file with codes..." Height="31" HorizontalAlignment="Left" Margin="179,285,0,0" Name="pbBrowse" VerticalAlignment="Top" Width="153" Click="pbBrowseClicked" />
+    </Grid>
+</Window>
