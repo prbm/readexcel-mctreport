@@ -196,7 +196,7 @@ namespace ReadExcelFile
             try
             {
                 // open the spreadsheet with the source data
-                excelWBook = excelApp.Workbooks.Open(filePath, Type.Missing, true, Type.Missing, Type.Missing, Type.Missing, true, Type.Missing, Type.Missing, false, false, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+                excelWBook = excelApp.Workbooks.Open(filePath, Type.Missing, true, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
 
                 // move to the first spreadsheet in the document
                 numberSelectedWorkSheetProcess.Reset();
@@ -241,28 +241,17 @@ namespace ReadExcelFile
                         // read carrier name
                         cell = head[selectedColumns[2]].ToString() + rCount.ToString();
                         tmp = (string)cellsRange.get_Range(cell, cell).Value2;
-                        if (tmp != null)
+                        if (ca.Country.Equals("ARGENTINA") && tmp.ToUpper().Equals("CLARO"))
+                            ca.CarrierName = "CTI";
+                        else if(ca.Country.Equals("UNIFIED") && tmp.ToUpper().Equals("TIGO")){
+                            ca.Country = "CENTRAL AMERICA";
                             ca.CarrierName = tmp.ToUpper().Trim();
+                            }
                         else
-                            ca.CarrierName = "NO CARRIER NAME";
+                            ca.CarrierName = tmp.ToUpper().Trim();
 
-                        if (listCountryCodes.Find(delegate(CountryCode c) { return (c.Carrier == ca.CarrierName); }) == null)
-                        {
-                            ca.CarrierName = ca.CarrierName;
-                            if (ca.CarrierName.Equals("NO CARRIER NAME"))
-                                ca.CarrierName = "OPEN";
-                            else if (ca.CarrierName.ToUpper().Equals("MOVISTAR"))
-                                ca.CarrierName = "TELEFONICA";
-                            else if (ca.CarrierName.ToUpper().Equals("OPEN MARKET"))
-                                ca.CarrierName = "OPEN";
-                            else if (ca.CarrierName.ToUpper().Equals("ALEGRO_PCS"))
-                                ca.CarrierName = "ALEGRO";
-                            else if (ca.CarrierName.ToUpper().Equals("ICE(COSTA RICA)") || ca.CarrierName.ToUpper().Equals("ICE(OPEN)"))
-                                ca.CarrierName = "ICE";
-                            else if (ca.CarrierName.ToUpper().Equals("C&W"))
-                                ca.CarrierName = "CNW";
-
-                        }
+                        // check the subsidiary name for the selected country
+                        ca.Subsidiary = ca.Country;
 
                         // read man month value
                         cell = head[selectedColumns[3]].ToString() + rCount.ToString();
@@ -274,8 +263,9 @@ namespace ReadExcelFile
                         else
                             manMonthValue = 0.0;
 
-                        ca.MediumManMonth = manMonthValue;
+                        ca.MediumManMonth = manMonthValue/1000;
 
+                        // read the number of people that reported hours in the project
                         cell = head[selectedColumns[4]].ToString() + rCount.ToString();
                         obj = cellsRange.get_Range(cell, cell).Value2;
                         Int32 pRH = 0;
@@ -286,6 +276,7 @@ namespace ReadExcelFile
 
                         ca.PeopleReportedHours = pRH;
 
+                        // add/update model information in the list
                         if (modelList.Count > 0)
                         {
                             // copy the value of manmonth for the selected project 
@@ -341,47 +332,19 @@ namespace ReadExcelFile
 
                     // read country name
                     tmp = (string)excelRange.get_Range("B" + counter, "B" + counter).Value2;
-                    if (tmp != null && tmp.Length > 0)
-                    {
-                        if(tmp.ToUpper().Contains("CRI("))
-                            tmp = "COSTA RICA";
+                    ca.Country = tmp.ToUpper().Trim();
 
-                        ca.Country = tmp.ToUpper().Trim();
-                    }
-                    else
-                        ca.Country = "NO COUNTRY NAME";
-
+                    // if the country name is not in the list, add it to the list
                     if (listCountryCodes.Find(delegate(CountryCode c) { return (c.Country == ca.Country); }) == null)
-                    {
-                        ca.Country = ca.Country;
-                        if (ca.Country.Equals("NO COUNTRY NAME"))
-                            ca.Country = "VENEZUELA";
-                    }
+                        ca.Country = ca.Country.Trim();
 
                     // read carrier name
                     tmp = (string)excelRange.get_Range("C" + counter, "C" + counter).Value2;
-                    if (tmp != null && tmp.Length > 0)
-                    {
-                        if (tmp.Contains("_"))
-                        {
-                            String[] t = tmp.Split('_');
-                            tmp = t[0];
-                        }
-                        if (tmp.ToUpper().Contains("CNW"))
-                            tmp = "CNW";
+                    ca.CarrierName = tmp.ToUpper().Trim();
 
-                        ca.CarrierName = tmp.ToUpper().Trim();
-                    }
-                    else
-                        ca.CarrierName = "NO CARRIER NAME";
-
+                    // if the carrier name is not in the list, add it to the list
                     if (listCountryCodes.Find(delegate(CountryCode c) { return (c.Carrier == ca.CarrierName); }) == null)
-                    {
                         ca.CarrierName = ca.CarrierName;
-                        if (ca.CarrierName.Equals("NO CARRIER NAME"))
-                            ca.CarrierName = "OPEN";
-
-                    }
 
                     // read project status
                     tmp = (string)excelRange.get_Range("E" + counter, "E" + counter).Value2;
@@ -437,20 +400,15 @@ namespace ReadExcelFile
                 foreach (Model mm in listCompletedPjts)
                 {
                     mTmp = modelList.Find(delegate(Model a) { return (a.ModelCode.Equals(mm.ModelCode) && a.ModelCAs.CarrierName.ToUpper().Equals(mm.ModelCAs.CarrierName.ToUpper()) && a.ModelCAs.Country.ToUpper().Equals(mm.ModelCAs.Country.ToUpper())); });
-                    if (mm.ModelCode.ToUpper().Contains("295"))
-                        mm.ModelCode = mm.ModelCode;
                     if (mTmp != null)
                     {
                         CA caTmp = new CA();
-                        Model modelTmp = new Model();
                         caTmp = mTmp.ModelCAs;
                         caTmp.ProjectStatus = "COMPLETED";
-                        modelTmp.ModelCode = mm.ModelCode;
-                        modelTmp.ModelCAs = caTmp;
+                        modelList.Remove(mTmp);
 
-
-                        modelList.Remove(mm);
-                        modelList.Add(modelTmp);
+                        mTmp.ModelCAs = caTmp;
+                        modelList.Add(mTmp);
                     }
                 }
 
@@ -459,20 +417,14 @@ namespace ReadExcelFile
                 foreach (Model mm in listDroppedPjts)
                 {
                     mTmp = modelList.Find(delegate(Model a) { return (a.ModelCode.Equals(mm.ModelCode) && a.ModelCAs.CarrierName.ToUpper().Equals(mm.ModelCAs.CarrierName.ToUpper()) && a.ModelCAs.Country.ToUpper().Equals(mm.ModelCAs.Country.ToUpper())); });
-                    if (mm.ModelCode.ToUpper().Contains("295"))
-                        mm.ModelCode = mm.ModelCode;
                     if (mTmp != null)
                     {
                         CA caTmp = new CA();
-                        Model modelTmp = new Model();
                         caTmp = mTmp.ModelCAs;
                         caTmp.ProjectStatus = "DROPPED";
-                        modelTmp.ModelCode = mm.ModelCode;
-                        modelTmp.ModelCAs = caTmp;
 
-
-                        modelList.Remove(mm);
-                        modelList.Add(modelTmp);
+                        mTmp.ModelCAs = caTmp;
+                        modelList.Add(mTmp);
                     }
                 }
                 listDroppedPjts = modelList.FindAll(delegate(Model mm) { return (mm.ModelCAs.ProjectStatus != null && mm.ModelCAs.ProjectStatus.Equals("DROPPED")); });
@@ -480,20 +432,15 @@ namespace ReadExcelFile
                 foreach (Model mm in listHoldPjts)
                 {
                     mTmp = modelList.Find(delegate(Model a) { return (a.ModelCode.Equals(mm.ModelCode) && a.ModelCAs.CarrierName.ToUpper().Equals(mm.ModelCAs.CarrierName.ToUpper()) && a.ModelCAs.Country.ToUpper().Equals(mm.ModelCAs.Country.ToUpper())); });
-                    if (mm.ModelCode.ToUpper().Contains("295"))
-                        mm.ModelCode = mm.ModelCode;
                     if (mTmp != null)
                     {
                         CA caTmp = new CA();
-                        Model modelTmp = new Model();
                         caTmp = mTmp.ModelCAs;
+                        modelList.Remove(mTmp);
                         caTmp.ProjectStatus = "HOLD";
-                        modelTmp.ModelCode = mm.ModelCode;
-                        modelTmp.ModelCAs = caTmp;
 
-
-                        modelList.Remove(mm);
-                        modelList.Add(modelTmp);
+                        mTmp.ModelCAs = caTmp;
+                        modelList.Add(mTmp);
                     }
                 }
                 listHoldPjts = modelList.FindAll(delegate(Model mm) { return (mm.ModelCAs.ProjectStatus != null && mm.ModelCAs.ProjectStatus == "HOLD"); });
@@ -504,15 +451,11 @@ namespace ReadExcelFile
                     if (mTmp != null)
                     {
                         CA caTmp = new CA();
-                        Model modelTmp = new Model();
                         caTmp = mTmp.ModelCAs;
-                        caTmp.ProjectStatus = "ECO";
-                        modelTmp.ModelCode = mm.ModelCode;
-                        modelTmp.ModelCAs = caTmp;
+                        modelList.Remove(mTmp);
 
-
-                        modelList.Remove(mm);
-                        modelList.Add(modelTmp);
+                        mTmp.ModelCAs = caTmp;
+                        modelList.Add(mTmp);
                     }
                 }
                 listECOPjts = modelList.FindAll(delegate(Model mm) { return (mm.ModelCAs.ProjectStatus != null && mm.ModelCAs.ProjectStatus == "ECO"); });
@@ -523,15 +466,11 @@ namespace ReadExcelFile
                     if (mTmp != null)
                     {
                         CA caTmp = new CA();
-                        Model modelTmp = new Model();
                         caTmp = mTmp.ModelCAs;
+                        modelList.Remove(mTmp);
                         caTmp.ProjectStatus = "WAIT";
-                        modelTmp.ModelCode = mm.ModelCode;
-                        modelTmp.ModelCAs = caTmp;
-
-
-                        modelList.Remove(mm);
-                        modelList.Add(modelTmp);
+                        mTmp.ModelCAs = caTmp;
+                        modelList.Add(mTmp);
                     }
                 }
                 listWaitPjts = modelList.FindAll(delegate(Model mm) { return (mm.ModelCAs.ProjectStatus != null && mm.ModelCAs.ProjectStatus == "WAIT"); });
@@ -542,15 +481,12 @@ namespace ReadExcelFile
                     if (mTmp != null)
                     {
                         CA caTmp = new CA();
-                        Model modelTmp = new Model();
                         caTmp = mTmp.ModelCAs;
+                        modelList.Remove(mTmp); 
                         caTmp.ProjectStatus = "RUNNING";
-                        modelTmp.ModelCode = mm.ModelCode;
-                        modelTmp.ModelCAs = caTmp;
 
-
-                        modelList.Remove(mm);
-                        modelList.Add(modelTmp);
+                        mTmp.ModelCAs = caTmp;
+                        modelList.Add(mTmp);
                     }
                 }
                 listRunningPjts = modelList.FindAll(delegate(Model mm) { return (mm.ModelCAs.ProjectStatus != null && mm.ModelCAs.ProjectStatus == "RUNNING"); });
@@ -570,7 +506,7 @@ namespace ReadExcelFile
                  ******************************/
                 // write date to the spreadsheet
                 xlWorkSheet.Name = "All Projects";
-                Excel.Range xlRange = xlWorkSheet.get_Range("A1", "C" + modelList.Count.ToString());
+                Excel.Range xlRange = xlWorkSheet.get_Range("A1", "G" + modelList.Count.ToString());
                 Int32 row = 2;
                 // set column heads
                 xlRange = xlWorkSheet.get_Range("A1", "A1");
@@ -583,7 +519,12 @@ namespace ReadExcelFile
                 xlRange.Value = "Status";
                 xlRange = xlWorkSheet.get_Range("E1", "E1");
                 xlRange.Value = "Index";
+                xlRange = xlWorkSheet.get_Range("F1", "F1");
+                xlRange.Value = "Number of People Reporting Hours";
+                xlRange = xlWorkSheet.get_Range("G1", "G1");
+                xlRange.Value = "Subsidiary";
 
+                // fulfill all the rows
                 foreach (Model model in modelList)
                 {
                     xlRange = xlWorkSheet.get_Range("A" + row.ToString(), "A" + row.ToString());
@@ -600,121 +541,12 @@ namespace ReadExcelFile
                     xlRange = xlWorkSheet.get_Range("F" + row.ToString(), "F" + row.ToString());
                     xlRange.NumberFormat = "00";
                     xlRange.Value = model.ModelCAs.PeopleReportedHours;
-
-                    //if (model.ModelCAs.ProjectStatus.Equals("COMPLETED"))
-                    //{
-                    //    index = listModelPjtStatus.FindIndex(delegate(Model mm) { return (mm.ModelCode == model.ModelCode && mm.ModelCAs.CarrierName == model.ModelCAs.CarrierName.ToUpper() && mm.ModelCAs.Country == model.ModelCAs.Country.ToUpper()); });
-                    //    listModelPjtStatus[index].ModelCAs = model.ModelCAs;
-                    //}
+                    xlRange = xlWorkSheet.get_Range("G" + row.ToString(), "G" + row.ToString());
+                    xlRange.Value = model.ModelCAs.Subsidiary;
 
                     row++;
                 }
 
-//                /************************************
-//                 * Man Month for Completed Projects *
-//                 ************************************/
-//                if (listCompletedPjts.Count>0)
-//                {
-//                    xlWorkSheet = xlWorkSheets.get_Item(2);
-//                    xlWorkSheet.Name = "Completed Projects";
-//                    xlRange = xlWorkSheet.get_Range("A1", "C" + listCompletedPjts.Count.ToString());
-//                    // set column heads
-//                    xlRange = xlWorkSheet.get_Range("A1", "A1");
-//                    xlRange.Value = "Model";
-//                    xlRange = xlWorkSheet.get_Range("B1", "B1");
-//                    xlRange.Value = "Country";
-//                    xlRange = xlWorkSheet.get_Range("C1", "C1");
-//                    xlRange.Value = "Carrier";
-//                    xlRange = xlWorkSheet.get_Range("D1", "D1");
-//                    xlRange.Value = "Index";
-
-//                    row = 2;
-//                    foreach (Model model in listCompletedPjts)
-//                    {
-//                        xlRange = xlWorkSheet.get_Range("A" + row.ToString(), "A" + row.ToString());
-//                        xlRange.Value = model.ModelCode.ToString();
-//                        xlRange = xlWorkSheet.get_Range("B" + row.ToString(), "B" + row.ToString());
-//                        xlRange.Value = model.ModelCAs.Country.ToString();
-//                        xlRange = xlWorkSheet.get_Range("C" + row.ToString(), "C" + row.ToString());
-//                        xlRange.Value = model.ModelCAs.CarrierName.ToString();
-//                        xlRange = xlWorkSheet.get_Range("D" + row.ToString(), "D" + row.ToString());
-//                        xlRange.NumberFormat = "0.000000";
-//                        xlRange.Value = model.ModelCAs.MediumManMonth;
-
-//                        row++;
-//                    }
-//                }
-
-//                /*******************************
-//                 * Man Month for Hold Projects *
-//                 *******************************/
-//                if (listHoldPjts.Count > 0)
-//                {
-//                    xlWorkSheet = xlWorkSheets.get_Item(3);
-//                    xlWorkSheet.Name = "Hold Projects";
-//                    xlRange = xlWorkSheet.get_Range("A1", "C" + listHoldPjts.Count.ToString());
-//                    // set column heads
-//                    xlRange = xlWorkSheet.get_Range("A1", "A1");
-//                    xlRange.Value = "Model";
-//                    xlRange = xlWorkSheet.get_Range("B1", "B1");
-//                    xlRange.Value = "Country";
-//                    xlRange = xlWorkSheet.get_Range("C1", "C1");
-//                    xlRange.Value = "Carrier";
-//                    xlRange = xlWorkSheet.get_Range("D1", "D1");
-//                    xlRange.Value = "Index";
-
-//                    row = 2;
-//                    foreach (Model model in listHoldPjts)
-//                    {
-//                        xlRange = xlWorkSheet.get_Range("A" + row.ToString(), "A" + row.ToString());
-//                        xlRange.Value = model.ModelCode.ToString();
-//                        xlRange = xlWorkSheet.get_Range("B" + row.ToString(), "B" + row.ToString());
-//                        xlRange.Value = model.ModelCAs.Country.ToString();
-//                        xlRange = xlWorkSheet.get_Range("C" + row.ToString(), "C" + row.ToString());
-//                        xlRange.Value = model.ModelCAs.CarrierName.ToString();
-//                        xlRange = xlWorkSheet.get_Range("D" + row.ToString(), "D" + row.ToString());
-//                        xlRange.NumberFormat = "0.000000";
-//                        xlRange.Value = model.ModelCAs.MediumManMonth;
-
-//                        row++;
-//                    }
-//                }
-
-//                /**********************************
-//                 * Man Month for Dropped Projects *
-//                 **********************************/
-////                xlWorkSheet = xlWorkSheets.
-//                if (listDroppedPjts.Count > 0)
-//                {
-//                    xlWorkSheet = xlWorkSheets.get_Item(4);
-//                    xlWorkSheet.Name = "Dropped Projects";
-//                    xlRange = xlWorkSheet.get_Range("A1", "C" + listDroppedPjts.Count.ToString());
-//                    // set column heads
-//                    xlRange = xlWorkSheet.get_Range("A1", "A1");
-//                    xlRange.Value = "Model";
-//                    xlRange = xlWorkSheet.get_Range("B1", "B1");
-//                    xlRange.Value = "Country";
-//                    xlRange = xlWorkSheet.get_Range("C1", "C1");
-//                    xlRange.Value = "Carrier";
-//                    xlRange = xlWorkSheet.get_Range("D1", "D1");
-//                    xlRange.Value = "Index";
-
-//                    row = 2;
-//                    foreach (Model model in listDroppedPjts)
-//                    {
-//                        xlRange = xlWorkSheet.get_Range("A" + row.ToString(), "A" + row.ToString());
-//                        xlRange.Value = model.ModelCode.ToString();
-//                        xlRange = xlWorkSheet.get_Range("B" + row.ToString(), "B" + row.ToString());
-//                        xlRange.Value = model.ModelCAs.Country.ToString();
-//                        xlRange = xlWorkSheet.get_Range("C" + row.ToString(), "C" + row.ToString());
-//                        xlRange.Value = model.ModelCAs.CarrierName.ToString();
-//                        xlRange = xlWorkSheet.get_Range("D" + row.ToString(), "D" + row.ToString());
-//                        xlRange.NumberFormat = "0.000000";
-//                        xlRange.Value = model.ModelCAs.MediumManMonth;
-
-//                        row++;
-                    //}
-                //}
                 xlWorkBook.Close();
             }
             catch (Exception e)
@@ -1240,6 +1072,35 @@ namespace ReadExcelFile
                         cc.Country = "VENEZUELA";
                         cc.Carrier = "OPEN";
                     }
+                    else
+                    {
+                        if (cc.Country.ToUpper().Equals("NO COUNTRY NAME"))
+                            cc.Country = "VENEZUELA";
+                        else if (cc.Country.ToUpper().Contains("MID."))
+                            cc.Country = "CENTRAL AMERICA";
+                        else if (cc.Country.ToUpper().Equals("UNIFIED"))
+                            cc.Country = "UNIFIED";
+                        else if (cc.Country.ToUpper().Contains("PT."))
+                            cc.Country = "PUERTO RICO";
+                        else if (cc.Country.ToUpper().Contains("CRI("))
+                            cc.Country = "COSTA RICA";
+                        else if (cc.Country.ToUpper().Contains("DOMENICA"))
+                            cc.Country = "DOMINICA";
+
+                        if (cc.Carrier.ToUpper().Equals("NO CARRIER NAME"))
+                            cc.Carrier = "OPEN";
+                        else if (cc.Carrier.ToUpper().Equals("MOVISTAR"))
+                            cc.Carrier = "TELEFONICA";
+                        else if (cc.Carrier.ToUpper().Equals("OPEN MARKET") || cc.Carrier.ToUpper().Equals("ICE(OPEN)"))
+                            cc.Carrier = "OPEN";
+                        else if (cc.Carrier.ToUpper().Equals("ALEGRO_PCS"))
+                            cc.Carrier = "ALEGRO";
+                        else if (cc.Carrier.ToUpper().Equals("ICE(COSTA RICA)"))
+                            cc.Carrier = "ICE";
+                        else if (cc.Carrier.ToUpper().Equals("C&W"))
+                            cc.Carrier = "CNW";
+                    }
+
 
                     if (listCountryCodes.Count > 0)
                         if (listCountryCodes.Find(delegate(CountryCode c) { return (c.Code == cc.Code); }) != null)

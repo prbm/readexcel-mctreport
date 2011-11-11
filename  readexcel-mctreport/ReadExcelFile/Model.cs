@@ -81,6 +81,7 @@ namespace ReadExcelFile
                     firstCA.ListCountryCodes = ca.ListCountryCodes;
                     firstCA.CarrierName = ca.CarrierName;
                     firstCA.Country = ca.Country;
+                    firstCA.Subsidiary = ca.Country;
                     firstCA.MediumManMonth = ca.MediumManMonth;
                     firstCA.ProjectStatus = ca.ProjectStatus;
                     firstCA.PeopleReportedHours = ca.PeopleReportedHours;
@@ -98,6 +99,7 @@ namespace ReadExcelFile
                     ca.MediumManMonth = value.MediumManMonth;
                     ca.ProjectStatus = value.ProjectStatus;
                     ca.PeopleReportedHours = value.PeopleReportedHours;
+                    ca.Subsidiary = ca.Country;
 
                     modelCAs.Add(ca);
                 }

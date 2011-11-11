@@ -10,6 +10,7 @@ namespace ReadExcelFile
     {
         private String carrierName;
         private String country;
+        private String subsidiary;
         private String projectStatus;
         private Double numberWorkingPeople;
         private Double totalManMonth;
@@ -29,7 +30,32 @@ namespace ReadExcelFile
         public String CarrierName
         {
             get { return this.carrierName; }
-            set { this.carrierName = value.ToString(); }
+            set { this.carrierName = extractCarrierName(value.ToString()); }
+        }
+
+        private String extractCarrierName(String txt)
+        {
+            String tmp = "NO CARRIER NAME";
+
+            if (txt == null)
+                return tmp;
+
+            if (txt.ToUpper().Equals("NO CARRIER NAME"))
+                tmp = "OPEN";
+            else if (txt.ToUpper().Equals("MOVISTAR"))
+                tmp = "TELEFONICA";
+            else if (txt.ToUpper().Equals("OPEN MARKET") || txt.ToUpper().Equals("ICE(OPEN)"))
+                tmp = "OPEN";
+            else if (txt.ToUpper().Equals("ALEGRO_PCS"))
+                tmp = "ALEGRO";
+            else if (txt.ToUpper().Equals("ICE(COSTA RICA)"))
+                tmp = "ICE";
+            else if (txt.ToUpper().Equals("C&W"))
+                tmp = "CNW";
+            else
+                tmp = txt.ToUpper().ToString();
+
+            return tmp;
         }
 
         private String extractCountryName(String txt)
@@ -45,15 +71,17 @@ namespace ReadExcelFile
             cc = listCountryCodes.Find(delegate(CountryCode c) { return (c.Country.Equals(tmp)); });
             if (cc==null)
             {
-                if (tmp.Equals("NO COUNTRY NAME"))
+                if (tmp.ToUpper().Equals("NO COUNTRY NAME"))
                     tmp = "VENEZUELA";
-                else if (tmp.Contains("MID.") || tmp.Equals("UNIFIED"))
+                else if (tmp.ToUpper().Contains("MID."))
                     tmp = "CENTRAL AMERICA";
-                else if (tmp.Contains("PT."))
+                else if (tmp.ToUpper().Equals("UNIFIED"))
+                    tmp = "UNIFIED";
+                else if (tmp.ToUpper().Contains("PT."))
                     tmp = "PUERTO RICO";
-                else if (tmp.Contains("CRI("))
+                else if (tmp.ToUpper().Contains("CRI("))
                     tmp = "COSTA RICA";
-                else if (tmp.Contains("DOMENICA"))
+                else if (tmp.ToUpper().Contains("DOMENICA"))
                     tmp = "DOMINICA";
             }
 
@@ -111,6 +139,44 @@ namespace ReadExcelFile
         {
             get { return this.peopleReportedHours; }
             set { this.peopleReportedHours = value; }
+        }
+
+        private String getSubsidiary(String country){
+            String subsidiary = null;
+
+            if (country.ToUpper().Equals("CENTRAL AMERICA") || 
+               country.ToUpper().Equals("COSTA RICA") ||
+               country.ToUpper().Equals("CUBA") ||
+               country.ToUpper().Equals("DOMINICA") ||
+               country.ToUpper().Equals("ECUADOR") ||
+               country.ToUpper().Equals("JAMAICA") ||
+               country.ToUpper().Equals("PANAMA") ||
+               country.ToUpper().Equals("PARAGUAY") ||
+               country.ToUpper().Equals("PUERTO RICO") ||
+               country.ToUpper().Equals("VENEZUELA"))
+                subsidiary = "LGEPS";
+            else if(country.ToUpper().Equals("BRAZIL"))
+                subsidiary = "LGESP";
+            else if(country.ToUpper().Equals("ARGENTINA") || country.ToUpper().Equals("URUGUAY"))
+                subsidiary = "LGEAR";
+            else if(country.ToUpper().Equals("MEXICO"))
+                subsidiary = "LGEMS";
+            else if(country.ToUpper().Equals("CHILE") || country.ToUpper().Equals("BOLIVIA"))
+                subsidiary = "LGECL";
+            else if(country.ToUpper().Equals("COLOMBIA"))
+                subsidiary = "LGECB";
+            else if(country.ToUpper().Equals("PERU"))
+                subsidiary = "LGEPE";
+            else
+                subsidiary = "SUB NOT DECLARED";
+
+            return subsidiary;
+        }
+
+        public String Subsidiary
+        {
+            get { return this.subsidiary; }
+            set { this.subsidiary = getSubsidiary(value.Trim().ToString()); }
         }
 
     }
