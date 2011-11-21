@@ -340,35 +340,19 @@ namespace ReadExcelFile
                     tmp = (string)excelRange.get_Range("E" + counter, "E" + counter).Value2;
                     ca.ProjectStatus = tmp;
 
-                    // if the model was not found in the list
-                    if (listModelPjtStatus.Find(delegate(Model mm) { return (mm.ModelCode == m.ModelCode && mm.ModelCA.CarrierName == ca.CarrierName.ToUpper() && mm.ModelCA.Country == ca.Country.ToUpper()); }) == null)
+                    // update information of project status
+                    if (modelList.Find(delegate(Model mm) { return (mm.ModelCode.Equals(m.ModelCode) && mm.ModelCA.CarrierName.Equals(ca.CarrierName) && mm.ModelCA.Country.Equals(ca.Country)); }) != null)
                     {
-                        // add the model to the list
-                        m.ModelCA = ca;
-                        listModelPjtStatus.Add(m);
+                        // get model data
+                        Model mtmp = modelList.Find(delegate(Model mm) { return (mm.ModelCode.Equals(m.ModelCode) && mm.ModelCA.CarrierName.Equals(ca.CarrierName) && mm.ModelCA.Country.Equals(ca.Country)); });
+                        // update model data with status information
+                        modelList.Remove(mtmp);
+                        mtmp.ModelCA.ProjectStatus = ca.ProjectStatus;
+                        modelList.Add(mtmp);
                     }
 
                 }// end for
                 excelWBook.Close();
-
-                /*************************************
-                 * update the status of the projects *
-                 * ***********************************/
-                Model[] tmpModelList = new Model[modelList.Count];
-                modelList.CopyTo(tmpModelList);
-                foreach (Model model in tmpModelList)
-                {
-                    // if the project was found
-                    if (listModelPjtStatus.Find(delegate(Model mm) { return (mm.ModelCode.Equals(model.ModelCode) && mm.ModelCA.CarrierName.Equals(model.ModelCA.CarrierName) && mm.ModelCA.Country.Equals(model.ModelCA.Country)); }) != null)
-                    {
-                        // get model data
-                        Model mtmp = listModelPjtStatus.Find(delegate(Model mm) { return (mm.ModelCode.Equals(model.ModelCode) && mm.ModelCA.CarrierName.Equals(model.ModelCA.CarrierName) && mm.ModelCA.Country.Equals(model.ModelCA.Country)); });
-                        // update model data with status information
-                        modelList.Remove(model);
-                        model.ModelCA.ProjectStatus = mtmp.ModelCA.ProjectStatus;
-                        modelList.Add(model);
-                    }
-                }
 
                 //// split models by the status
                 //List<Model> listCompletedPjts = modelList.FindAll(delegate(Model mm) { return (mm.ModelCA.ProjectStatus.Equals("COMPLETED")); });
