@@ -8,15 +8,7 @@ namespace ReadExcelFile
     class Model
     {
         private String modelCode;
-        private List<CA> modelCAs;
-        private CA firstCA;
-        private Int32 numberModelCAs;
-
-        public Model()
-        {
-            this.numberModelCAs = 0;
-            modelCAs = new List<CA>();
-        }
+        private CA modelCA;
 
         public String extractModelName(String txt)
         {
@@ -66,42 +58,23 @@ namespace ReadExcelFile
             set { this.modelCode = extractModelName(value.ToString());}
         }
 
-        public List<CA> ModelCas
-        {
-            get { return this.modelCAs; }
-        }
-
-        public CA ModelCAs
+        public CA ModelCA
         {
             get
             {
-                firstCA = new CA();
-                foreach (CA ca in modelCAs)
-                {
-                    firstCA.ListCountryCodes = ca.ListCountryCodes;
-                    firstCA.CarrierName = ca.CarrierName;
-                    firstCA.Country = ca.Country;
-                    firstCA.Subsidiary = ca.Country;
-                    firstCA.MediumManMonth = ca.MediumManMonth;
-                    firstCA.ProjectStatus = ca.ProjectStatus;
-                    firstCA.PeopleReportedHours = ca.PeopleReportedHours;
-                }
-                return firstCA;
+                return this.modelCA;
             }
             set
             {
                 if (value.GetType() == typeof(CA))
                 {
-                    CA ca = new CA(value.ListCountryCodes);
-
-                    ca.CarrierName = value.CarrierName;
-                    ca.Country = value.Country;
-                    ca.MediumManMonth = value.MediumManMonth;
-                    ca.ProjectStatus = value.ProjectStatus;
-                    ca.PeopleReportedHours = value.PeopleReportedHours;
-                    ca.Subsidiary = ca.Country;
-
-                    modelCAs.Add(ca);
+                    modelCA = new CA(value.ListCountryCodes);
+                    modelCA.CarrierName = value.CarrierName;
+                    modelCA.Country = value.Country;
+                    modelCA.MediumManMonth = value.MediumManMonth;
+                    modelCA.ProjectStatus = value.ProjectStatus;
+                    modelCA.PeopleReportedHours = value.PeopleReportedHours;
+                    modelCA.Subsidiary = modelCA.Country;
                 }
 
             }
