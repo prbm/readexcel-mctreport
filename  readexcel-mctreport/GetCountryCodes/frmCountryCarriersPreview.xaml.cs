@@ -29,6 +29,10 @@ namespace GetCountryCodes
 
         public void pbBrowseClicked(object sender, RoutedEventArgs e)
         {
+            // Declare variables for connection strings usage
+            OleDbConnection odbConn = null;
+            OleDbDataAdapter odbDataAdapter = null;
+
             String fileName;
             // select file to get the data to previsualize
             OpenFileDialog dlg = new OpenFileDialog();
@@ -46,17 +50,14 @@ namespace GetCountryCodes
             try
             {
                 // provide string connection for data provider
-                String strConn = @"Provider=Microsoft.Jet.OLEDB.4.0; Data Source=" + fileName + 
-                                 @"; Jet OLEDB:Engine Type=5;Extended Properties=Excel 8.0;";
-                                       //";Extended Properties=Excel 8.0;";
+                String strConn = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + fileName + ";Extended Properties=Excel 8.0;";
 
-                OleDbConnection odbConn = new OleDbConnection(strConn);
+                odbConn = new OleDbConnection(strConn);
                 odbConn.Open();
 
-                OleDbCommand cmdSelect = new OleDbCommand(@"SELECT * FROM [Plan1$];", odbConn);
+                OleDbCommand cmdSelect = new OleDbCommand("SELECT * FROM [Plan1$];", odbConn);
 
-
-                OleDbDataAdapter odbDataAdapter = new OleDbDataAdapter();
+                odbDataAdapter = new OleDbDataAdapter();
                 DataTable dTable = new DataTable();
                 odbDataAdapter.SelectCommand = cmdSelect;
 
@@ -70,9 +71,6 @@ namespace GetCountryCodes
                 //gridExcelPreview.SelectionMode = DataGridSelectionMode.Single;
                 gridExcelPreview.SelectionUnit = DataGridSelectionUnit.Cell;
 
-                odbConn.Close();
-                odbDataAdapter = null;
-
             }
             catch (Exception ex)
             {
@@ -80,17 +78,36 @@ namespace GetCountryCodes
             }
             finally
             {
+                // close open connections
+                odbConn.Close();
+                odbDataAdapter = null;
             }
         }
 
 
         private void pbGetCountryCarriers_Click(object sender, RoutedEventArgs e)
         {
+            // local auxiliary variables
             String[] selectedHeaders = new string[gridExcelPreview.SelectedCells.Count];
+            List<String> headers = new List<String>();
             int countColumns = 0;
 
+            // get column headers
             foreach (DataGridCellInfo cell in gridExcelPreview.SelectedCells)
+            {
+                // avoid duplicated headers counting
+                if (headers.Count > 0)
+                {
+                    if (!headers.Contains(cell.Column.Header.ToString()))
+                        headers.Add(cell.Column.Header.ToString());
+                    else
+                        continue;
+                }
+                else
+                    headers.Add(cell.Column.Header.ToString());
+
                 selectedHeaders[countColumns++] = cell.Column.Header.ToString();
+            }
 
             if (countColumns < 3)
             {
