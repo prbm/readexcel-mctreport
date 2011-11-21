@@ -94,10 +94,37 @@ namespace ReadExcelFile
             set { this.country = extractCountryName(value.ToString());}
         }
 
+        public void setProjectStatus(String oriStatus)
+        {
+           this.projectStatus = "EMPTY STATUS";
+
+            if (oriStatus != null)
+            {
+                oriStatus = oriStatus.Trim().ToUpper();
+
+                if (oriStatus.Equals("COMPLETED") || oriStatus.Equals("OS UPGRADE"))
+                    this.projectStatus = "COMPLETED";
+                else if (oriStatus.Equals("DROPPED") || oriStatus.Equals("DROP"))
+                    this.projectStatus = "DROPPED";
+                else if (oriStatus.Equals("HOLD"))
+                    this.projectStatus = "HOLD";
+                else if (oriStatus.Equals("RC"))
+                    this.projectStatus = "ECO";
+                else if (oriStatus.Equals("WAIT"))
+                    this.projectStatus = "WAIT";
+                else
+                    this.projectStatus = "RUNNING";
+            }
+
+        }
+
         public String ProjectStatus
         {
             get { return this.projectStatus; }
-            set { this.projectStatus = value; }
+            set 
+            {
+                    setProjectStatus(value);
+            }
         }
         public Double NumberWorkingPeople
         {
@@ -141,8 +168,8 @@ namespace ReadExcelFile
             set { this.peopleReportedHours = value; }
         }
 
-        private String getSubsidiary(String country){
-            String subsidiary = null;
+        public void setSubsidiary(String country){
+            this.subsidiary = null;
 
             if (country.ToUpper().Equals("CENTRAL AMERICA") || 
                country.ToUpper().Equals("COSTA RICA") ||
@@ -156,27 +183,25 @@ namespace ReadExcelFile
                country.ToUpper().Equals("VENEZUELA"))
                 subsidiary = "LGEPS";
             else if(country.ToUpper().Equals("BRAZIL"))
-                subsidiary = "LGESP";
+                this.subsidiary = "LGESP";
             else if(country.ToUpper().Equals("ARGENTINA") || country.ToUpper().Equals("URUGUAY"))
-                subsidiary = "LGEAR";
+                this.subsidiary = "LGEAR";
             else if(country.ToUpper().Equals("MEXICO"))
-                subsidiary = "LGEMS";
+                this.subsidiary = "LGEMS";
             else if(country.ToUpper().Equals("CHILE") || country.ToUpper().Equals("BOLIVIA"))
-                subsidiary = "LGECL";
+                this.subsidiary = "LGECL";
             else if(country.ToUpper().Equals("COLOMBIA"))
-                subsidiary = "LGECB";
+                this.subsidiary = "LGECB";
             else if(country.ToUpper().Equals("PERU"))
-                subsidiary = "LGEPE";
+                this.subsidiary = "LGEPE";
             else
-                subsidiary = "SUB NOT DECLARED";
-
-            return subsidiary;
+                this.subsidiary = "SUB NOT DECLARED";
         }
 
         public String Subsidiary
         {
             get { return this.subsidiary; }
-            set { this.subsidiary = getSubsidiary(value.Trim().ToString()); }
+            set { this.subsidiary = value.Trim().ToString(); }
         }
 
     }

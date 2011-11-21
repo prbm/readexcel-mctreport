@@ -188,7 +188,7 @@ namespace ReadExcelFile
             Model m;
             CA ca;
             List<Model> modelList = new List<Model>();
-            double manMonthValue = 0.0;
+            String msg = @"INI: " + DateTime.Now.ToString("hh:mm:ss");
 
             // get the emnumerator of elements in each array
             System.Collections.IEnumerator numberSelectedWorkSheetProcess = selectedWorkSheets.GetEnumerator();
@@ -237,10 +237,17 @@ namespace ReadExcelFile
                         cell = head[selectedColumns[1]].ToString() + rCount.ToString();
                         tmp = (string)cellsRange.get_Range(cell, cell).Value2;
                         ca.Country = tmp.ToUpper().Trim();
+
+                        // check the subsidiary name for the selected country
+                        ca.setSubsidiary(ca.Country);
                         
                         // read carrier name
                         cell = head[selectedColumns[2]].ToString() + rCount.ToString();
                         tmp = (string)cellsRange.get_Range(cell, cell).Value2;
+                        if (ca.Country.Equals("ARGENTINA"))
+                        {
+                            int a = 999;
+                        }
                         if (ca.Country.Equals("ARGENTINA") && tmp.ToUpper().Equals("CLARO"))
                             ca.CarrierName = "CTI";
                         else if(ca.Country.Equals("UNIFIED") && tmp.ToUpper().Equals("TIGO")){
@@ -250,66 +257,49 @@ namespace ReadExcelFile
                         else
                             ca.CarrierName = tmp.ToUpper().Trim();
 
-                        // check the subsidiary name for the selected country
-                        ca.Subsidiary = ca.Country;
-
                         // read man month value
+                        ca.MediumManMonth = 0.0;
                         cell = head[selectedColumns[3]].ToString() + rCount.ToString();
                         obj = cellsRange.get_Range(cell, cell).Value2;
                         if (obj.GetType() == typeof(string))
-                            manMonthValue = Double.Parse((string)obj);
+                            ca.MediumManMonth = Double.Parse((string)obj);
                         else if (obj.GetType() == typeof(double))
-                            manMonthValue = (double)obj;
-                        else
-                            manMonthValue = 0.0;
+                            ca.MediumManMonth = (double)obj;
 
-                        ca.MediumManMonth = manMonthValue/1000;
+                        ca.MediumManMonth = ca.MediumManMonth / 1000;
 
                         // read the number of people that reported hours in the project
                         cell = head[selectedColumns[4]].ToString() + rCount.ToString();
                         obj = cellsRange.get_Range(cell, cell).Value2;
-                        Int32 pRH = 0;
+                        ca.PeopleReportedHours = 0;
                         if (obj.GetType() == typeof(string))
-                            pRH = Int32.Parse((string)obj);
+                            ca.PeopleReportedHours = Int32.Parse((string)obj);
                         else if (obj.GetType() == typeof(double))
-                            pRH = Int32.Parse(obj.ToString());
-
-                        ca.PeopleReportedHours = pRH;
+                            ca.PeopleReportedHours = Int32.Parse(obj.ToString());
 
                         // add/update model information in the list
-                        if (modelList.Count > 0)
-                        {
-                            // copy the value of manmonth for the selected project 
-                            Model tmpModel = modelList.Find(delegate(Model mm) { return (mm.ModelCode == m.ModelCode && mm.ModelCAs.CarrierName == ca.CarrierName.ToUpper() && mm.ModelCAs.Country == ca.Country.ToUpper() && mm.ModelCAs.MediumManMonth > 0); });
-                            if (tmpModel == null)
-                            {
-                                m.ModelCAs = ca;
+                        if (modelList.Find(delegate(Model mm) { return (mm.ModelCode == m.ModelCode && mm.ModelCA.CarrierName == ca.CarrierName.ToUpper() && mm.ModelCA.Country == ca.Country.ToUpper() && mm.ModelCA.MediumManMonth > 0); }) == null){
+                                m.ModelCA = ca;
                                 modelList.Add(m);
                             }
-                            else
-                            {
-                                // if project already exists, update the value of manmonth for the project
-                                ca.MediumManMonth += tmpModel.ModelCAs.MediumManMonth;
-                                ca.PeopleReportedHours += tmpModel.ModelCAs.PeopleReportedHours;
-                                modelList.Remove(tmpModel);
-                                tmpModel.ModelCAs = ca;
-                                modelList.Add(tmpModel);
-                            }
+                        else{
+                            Model tmpModel = modelList.Find(delegate(Model mm) { return (mm.ModelCode == m.ModelCode && mm.ModelCA.CarrierName == ca.CarrierName.ToUpper() && mm.ModelCA.Country == ca.Country.ToUpper() && mm.ModelCA.MediumManMonth > 0); });
+
+                            // if a project already exists, update the value of manmonth for the project
+                            ca.MediumManMonth += tmpModel.ModelCA.MediumManMonth;
+                            ca.PeopleReportedHours += tmpModel.ModelCA.PeopleReportedHours;
+                            modelList.Remove(tmpModel);
+                            tmpModel.ModelCA = ca;
+                            modelList.Add(tmpModel);
                         }
-                        else
-                        {
-                            // add the first model to the list
-                            m.ModelCAs = ca;
-                            modelList.Add(m);
-                        }
+
                     }
                 }
                 excelWBook.Close(true, null, null);
 
-
-                /**********************************************************
-                 * read the status of the projects in the exceptions list *
-                 * *******************************************************/
+                /***********************************
+                 * read the status of the projects *
+                 * *********************************/
 
                 // open the excel file
                 excelWBook = excelApp.Workbooks.Open(fileProjectStatusPath, Type.Missing, true, Type.Missing, Type.Missing, Type.Missing, false, Type.Missing, Type.Missing, false, true, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
@@ -317,7 +307,7 @@ namespace ReadExcelFile
                 excelWSheet = (Excel.Worksheet)excelWBook.Worksheets.get_Item(1);
                 // get the used ranges in the excel spreadsheet
                 Excel.Range excelRange = excelWSheet.UsedRange;
-                // read the contenr of the spreadSheet
+                // read the content of the spreadSheet
                 List<Model> listModelPjtStatus = new List<Model>();
                 for (int counter = 2; counter <= excelRange.Rows.Count; counter++)
                 {
@@ -348,149 +338,45 @@ namespace ReadExcelFile
 
                     // read project status
                     tmp = (string)excelRange.get_Range("E" + counter, "E" + counter).Value2;
-                    if (tmp != null)
-                    {
-                        if (tmp.ToUpper().Equals("COMPLETED") || tmp.ToUpper().Equals("OS UPGRADE"))
-                            ca.ProjectStatus = "COMPLETED";
-                        else if (tmp.ToUpper().Equals("DROPPED") || tmp.ToUpper().Equals("DROP"))
-                            ca.ProjectStatus = "DROPPED";
-                        else if (tmp.ToUpper().Equals("HOLD"))
-                            ca.ProjectStatus = "HOLD";
-                        else if (tmp.ToUpper().Equals("RC"))
-                            ca.ProjectStatus = "ECO";
-                        else if (tmp.ToUpper().Equals("WAIT"))
-                            ca.ProjectStatus = "WAIT";
-                        else
-                            ca.ProjectStatus = "RUNNING";
-                    }
-                    else
-                        ca.ProjectStatus = "EMPTY";
+                    ca.ProjectStatus = tmp;
 
-                    // if the list is not empty
-                    if (listModelPjtStatus.Count > 0)
+                    // if the model was not found in the list
+                    if (listModelPjtStatus.Find(delegate(Model mm) { return (mm.ModelCode == m.ModelCode && mm.ModelCA.CarrierName == ca.CarrierName.ToUpper() && mm.ModelCA.Country == ca.Country.ToUpper()); }) == null)
                     {
-                        // copy the value of manmonth for the selected project 
-                        Model tmpModel = listModelPjtStatus.Find(delegate(Model mm) { return (mm.ModelCode == m.ModelCode && mm.ModelCAs.CarrierName == ca.CarrierName.ToUpper() && mm.ModelCAs.Country == ca.Country.ToUpper()); });
-                        if (tmpModel == null)
-                        {
-                            m.ModelCAs = ca;
-                            listModelPjtStatus.Add(m);
-                        }
-                    }
-                    else
-                    {
-                        // add the first model to the list
-                        m.ModelCAs = ca;
+                        // add the model to the list
+                        m.ModelCA = ca;
                         listModelPjtStatus.Add(m);
                     }
 
                 }// end for
                 excelWBook.Close();
 
-                // split models by the status
-                List<Model> listCompletedPjts = listModelPjtStatus.FindAll(delegate(Model mm) { return (mm.ModelCAs.ProjectStatus.Equals("COMPLETED")); });
-                List<Model> listDroppedPjts = listModelPjtStatus.FindAll(delegate(Model mm) { return (mm.ModelCAs.ProjectStatus.Equals("DROPPED")); });
-                List<Model> listHoldPjts = listModelPjtStatus.FindAll(delegate(Model mm) { return (mm.ModelCAs.ProjectStatus.Equals("HOLD")); });
-                List<Model> listECOPjts = listModelPjtStatus.FindAll(delegate(Model mm) { return (mm.ModelCAs.ProjectStatus.Equals("ECO")); });
-                List<Model> listWaitPjts = listModelPjtStatus.FindAll(delegate(Model mm) { return (mm.ModelCAs.ProjectStatus.Equals("WAIT")); });
-                List<Model> listRunningPjts = listModelPjtStatus.FindAll(delegate(Model mm) { return (mm.ModelCAs.ProjectStatus.Equals("RUNNING")); });
-
-                Model mTmp = null;
-
-                foreach (Model mm in listCompletedPjts)
+                /*************************************
+                 * update the status of the projects *
+                 * ***********************************/
+                Model[] tmpModelList = new Model[modelList.Count];
+                modelList.CopyTo(tmpModelList);
+                foreach (Model model in tmpModelList)
                 {
-                    mTmp = modelList.Find(delegate(Model a) { return (a.ModelCode.Equals(mm.ModelCode) && a.ModelCAs.CarrierName.ToUpper().Equals(mm.ModelCAs.CarrierName.ToUpper()) && a.ModelCAs.Country.ToUpper().Equals(mm.ModelCAs.Country.ToUpper())); });
-                    if (mTmp != null)
+                    // if the project was found
+                    if (listModelPjtStatus.Find(delegate(Model mm) { return (mm.ModelCode.Equals(model.ModelCode) && mm.ModelCA.CarrierName.Equals(model.ModelCA.CarrierName) && mm.ModelCA.Country.Equals(model.ModelCA.Country)); }) != null)
                     {
-                        CA caTmp = new CA();
-                        caTmp = mTmp.ModelCAs;
-                        caTmp.ProjectStatus = "COMPLETED";
-                        modelList.Remove(mTmp);
-
-                        mTmp.ModelCAs = caTmp;
-                        modelList.Add(mTmp);
+                        // get model data
+                        Model mtmp = listModelPjtStatus.Find(delegate(Model mm) { return (mm.ModelCode.Equals(model.ModelCode) && mm.ModelCA.CarrierName.Equals(model.ModelCA.CarrierName) && mm.ModelCA.Country.Equals(model.ModelCA.Country)); });
+                        // update model data with status information
+                        modelList.Remove(model);
+                        model.ModelCA.ProjectStatus = mtmp.ModelCA.ProjectStatus;
+                        modelList.Add(model);
                     }
                 }
 
-                listCompletedPjts = modelList.FindAll(delegate(Model mm) { return (mm.ModelCAs.ProjectStatus!=null && mm.ModelCAs.ProjectStatus.Equals("COMPLETED")); });
-
-                foreach (Model mm in listDroppedPjts)
-                {
-                    mTmp = modelList.Find(delegate(Model a) { return (a.ModelCode.Equals(mm.ModelCode) && a.ModelCAs.CarrierName.ToUpper().Equals(mm.ModelCAs.CarrierName.ToUpper()) && a.ModelCAs.Country.ToUpper().Equals(mm.ModelCAs.Country.ToUpper())); });
-                    if (mTmp != null)
-                    {
-                        CA caTmp = new CA();
-                        caTmp = mTmp.ModelCAs;
-                        caTmp.ProjectStatus = "DROPPED";
-
-                        mTmp.ModelCAs = caTmp;
-                        modelList.Add(mTmp);
-                    }
-                }
-                listDroppedPjts = modelList.FindAll(delegate(Model mm) { return (mm.ModelCAs.ProjectStatus != null && mm.ModelCAs.ProjectStatus.Equals("DROPPED")); });
-
-                foreach (Model mm in listHoldPjts)
-                {
-                    mTmp = modelList.Find(delegate(Model a) { return (a.ModelCode.Equals(mm.ModelCode) && a.ModelCAs.CarrierName.ToUpper().Equals(mm.ModelCAs.CarrierName.ToUpper()) && a.ModelCAs.Country.ToUpper().Equals(mm.ModelCAs.Country.ToUpper())); });
-                    if (mTmp != null)
-                    {
-                        CA caTmp = new CA();
-                        caTmp = mTmp.ModelCAs;
-                        modelList.Remove(mTmp);
-                        caTmp.ProjectStatus = "HOLD";
-
-                        mTmp.ModelCAs = caTmp;
-                        modelList.Add(mTmp);
-                    }
-                }
-                listHoldPjts = modelList.FindAll(delegate(Model mm) { return (mm.ModelCAs.ProjectStatus != null && mm.ModelCAs.ProjectStatus == "HOLD"); });
-
-                foreach (Model mm in listECOPjts)
-                {
-                    mTmp = modelList.Find(delegate(Model a) { return (a.ModelCode.Equals(mm.ModelCode) && a.ModelCAs.CarrierName.ToUpper().Equals(mm.ModelCAs.CarrierName.ToUpper()) && a.ModelCAs.Country.ToUpper().Equals(mm.ModelCAs.Country.ToUpper())); });
-                    if (mTmp != null)
-                    {
-                        CA caTmp = new CA();
-                        caTmp = mTmp.ModelCAs;
-                        modelList.Remove(mTmp);
-
-                        mTmp.ModelCAs = caTmp;
-                        modelList.Add(mTmp);
-                    }
-                }
-                listECOPjts = modelList.FindAll(delegate(Model mm) { return (mm.ModelCAs.ProjectStatus != null && mm.ModelCAs.ProjectStatus == "ECO"); });
-
-                foreach (Model mm in listWaitPjts)
-                {
-                    mTmp = modelList.Find(delegate(Model a) { return (a.ModelCode.Equals(mm.ModelCode) && a.ModelCAs.CarrierName.ToUpper().Equals(mm.ModelCAs.CarrierName.ToUpper()) && a.ModelCAs.Country.ToUpper().Equals(mm.ModelCAs.Country.ToUpper())); });
-                    if (mTmp != null)
-                    {
-                        CA caTmp = new CA();
-                        caTmp = mTmp.ModelCAs;
-                        modelList.Remove(mTmp);
-                        caTmp.ProjectStatus = "WAIT";
-                        mTmp.ModelCAs = caTmp;
-                        modelList.Add(mTmp);
-                    }
-                }
-                listWaitPjts = modelList.FindAll(delegate(Model mm) { return (mm.ModelCAs.ProjectStatus != null && mm.ModelCAs.ProjectStatus == "WAIT"); });
-
-                foreach (Model mm in listRunningPjts)
-                {
-                    mTmp = modelList.Find(delegate(Model a) { return (a.ModelCode.Equals(mm.ModelCode) && a.ModelCAs.CarrierName.ToUpper().Equals(mm.ModelCAs.CarrierName.ToUpper()) && a.ModelCAs.Country.ToUpper().Equals(mm.ModelCAs.Country.ToUpper())); });
-                    if (mTmp != null)
-                    {
-                        CA caTmp = new CA();
-                        caTmp = mTmp.ModelCAs;
-                        modelList.Remove(mTmp); 
-                        caTmp.ProjectStatus = "RUNNING";
-
-                        mTmp.ModelCAs = caTmp;
-                        modelList.Add(mTmp);
-                    }
-                }
-                listRunningPjts = modelList.FindAll(delegate(Model mm) { return (mm.ModelCAs.ProjectStatus != null && mm.ModelCAs.ProjectStatus == "RUNNING"); });
-
+                //// split models by the status
+                //List<Model> listCompletedPjts = modelList.FindAll(delegate(Model mm) { return (mm.ModelCA.ProjectStatus.Equals("COMPLETED")); });
+                //List<Model> listDroppedPjts = modelList.FindAll(delegate(Model mm) { return (mm.ModelCA.ProjectStatus.Equals("DROPPED")); });
+                //List<Model> listHoldPjts = modelList.FindAll(delegate(Model mm) { return (mm.ModelCA.ProjectStatus.Equals("HOLD")); });
+                //List<Model> listECOPjts = modelList.FindAll(delegate(Model mm) { return (mm.ModelCA.ProjectStatus.Equals("ECO")); });
+                //List<Model> listWaitPjts = modelList.FindAll(delegate(Model mm) { return (mm.ModelCA.ProjectStatus.Equals("WAIT")); });
+                //List<Model> listRunningPjts = modelList.FindAll(delegate(Model mm) { return (mm.ModelCA.ProjectStatus.Equals("RUNNING")); });
 
                 /*********************************
                  * * Print Data to Excel Files * *
@@ -530,19 +416,19 @@ namespace ReadExcelFile
                     xlRange = xlWorkSheet.get_Range("A" + row.ToString(), "A" + row.ToString());
                     xlRange.Value = model.ModelCode.ToString();
                     xlRange = xlWorkSheet.get_Range("B" + row.ToString(), "B" + row.ToString());
-                    xlRange.Value = model.ModelCAs.Country.ToString();
+                    xlRange.Value = model.ModelCA.Country.ToString();
                     xlRange = xlWorkSheet.get_Range("C" + row.ToString(), "C" + row.ToString());
-                    xlRange.Value = model.ModelCAs.CarrierName.ToString();
+                    xlRange.Value = model.ModelCA.CarrierName.ToString();
                     xlRange = xlWorkSheet.get_Range("D" + row.ToString(), "D" + row.ToString());
-                    xlRange.Value = model.ModelCAs.ProjectStatus;
+                    xlRange.Value = model.ModelCA.ProjectStatus;
                     xlRange = xlWorkSheet.get_Range("E" + row.ToString(), "E" + row.ToString());
                     xlRange.NumberFormat = "0.000000";
-                    xlRange.Value = model.ModelCAs.MediumManMonth;
+                    xlRange.Value = model.ModelCA.MediumManMonth;
                     xlRange = xlWorkSheet.get_Range("F" + row.ToString(), "F" + row.ToString());
                     xlRange.NumberFormat = "00";
-                    xlRange.Value = model.ModelCAs.PeopleReportedHours;
+                    xlRange.Value = model.ModelCA.PeopleReportedHours;
                     xlRange = xlWorkSheet.get_Range("G" + row.ToString(), "G" + row.ToString());
-                    xlRange.Value = model.ModelCAs.Subsidiary;
+                    xlRange.Value = model.ModelCA.Subsidiary;
 
                     row++;
                 }
@@ -556,6 +442,8 @@ namespace ReadExcelFile
             finally
             {
                 // close Excel Application
+                msg += "\n" + @"FIM: " + DateTime.Now.ToString("hh:mm:ss");
+                MessageBox.Show(msg);
                 excelApp.Quit();
             }
         }
