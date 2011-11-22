@@ -74,7 +74,7 @@ namespace ReadExcelFile
                     modelCA.MediumManMonth = value.MediumManMonth;
                     modelCA.ProjectStatus = value.ProjectStatus;
                     modelCA.PeopleReportedHours = value.PeopleReportedHours;
-                    modelCA.Subsidiary = modelCA.Country;
+                    modelCA.setSubsidiary(modelCA.Country);
                 }
 
             }
