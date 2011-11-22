@@ -916,66 +916,13 @@ namespace ReadExcelFile
                     cc.Code = cc.Code.Substring(1, 3);
 
                     cc.Country = (string)excelRange.get_Range("B" + row, "B" + row).Value2;
-                    if (cc.Country != null)
-                    {
-                        if (cc.Country.ToUpper().Contains("CRI("))
-                            cc.Country = "COSTA RICA";
-                        else
-                            cc.Country = cc.Country.ToUpper().Trim();
-                    }
-                   
+                  
                     cc.Carrier = (string)excelRange.get_Range("C" + row, "C" + row).Value2;
-                    if (cc.Carrier != null)
-                    {
-                        if (cc.Carrier.Contains('_'))
-                        {
-                            tmp = cc.Carrier.Split('_');
-                            cc.Carrier = tmp[0];
-                        }
-                        else if (cc.Carrier.Contains("CNW"))
-                            cc.Carrier = "CNW";
-                        else if (cc.Carrier.ToUpper().Equals("OPEN MARKET"))
-                            cc.Carrier = "OPEN";
-
-                        if (cc.Carrier != null)
-                            cc.Carrier = cc.Carrier.ToUpper().Trim();
-                    }
-
-                    if (cc.Country == null && cc.Carrier == null)
+                    if ((cc.Country == null || cc.Country.Equals("NO COUNTRY NAME") || cc.Country.Equals("VENEZUELA")) && (cc.Carrier == null || cc.Carrier.Equals("NO CARRIER NAME")))
                     {
                         cc.Country = "VENEZUELA";
                         cc.Carrier = "OPEN";
                     }
-                    else
-                    {
-                        if (cc.Country.ToUpper().Equals("NO COUNTRY NAME"))
-                            cc.Country = "VENEZUELA";
-                        else if (cc.Country.ToUpper().Contains("MID."))
-                            cc.Country = "CENTRAL AMERICA";
-                        else if (cc.Country.ToUpper().Equals("UNIFIED"))
-                            cc.Country = "UNIFIED";
-                        else if (cc.Country.ToUpper().Contains("PT."))
-                            cc.Country = "PUERTO RICO";
-                        else if (cc.Country.ToUpper().Contains("CRI("))
-                            cc.Country = "COSTA RICA";
-                        else if (cc.Country.ToUpper().Contains("DOMENICA"))
-                            cc.Country = "DOMINICA";
-
-                        if (cc.Carrier.ToUpper().Equals("NO CARRIER NAME"))
-                            cc.Carrier = "OPEN";
-                        else if (cc.Carrier.ToUpper().Equals("MOVISTAR"))
-                            cc.Carrier = "TELEFONICA";
-                        else if (cc.Carrier.ToUpper().Equals("OPEN MARKET") || cc.Carrier.ToUpper().Equals("ICE(OPEN)"))
-                            cc.Carrier = "OPEN";
-                        else if (cc.Carrier.ToUpper().Equals("ALEGRO_PCS"))
-                            cc.Carrier = "ALEGRO";
-                        else if (cc.Carrier.ToUpper().Equals("ICE(COSTA RICA)"))
-                            cc.Carrier = "ICE";
-                        else if (cc.Carrier.ToUpper().Equals("C&W"))
-                            cc.Carrier = "CNW";
-                    }
-
-
                     if (listCountryCodes.Count > 0)
                         if (listCountryCodes.Find(delegate(CountryCode c) { return (c.Code == cc.Code); }) != null)
                             continue;

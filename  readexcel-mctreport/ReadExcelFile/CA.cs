@@ -30,68 +30,61 @@ namespace ReadExcelFile
         public String CarrierName
         {
             get { return this.carrierName; }
-            set { this.carrierName = extractCarrierName(value.ToString()); }
+            set {
+                if (value == null)
+                    extractCarrierName("");
+                else
+                    extractCarrierName(value.ToString()); }
         }
 
-        private String extractCarrierName(String txt)
+        private void extractCarrierName(String txt)
         {
-            String tmp = "NO CARRIER NAME";
+            this.carrierName = "NO CARRIER NAME";
 
-            if (txt == null)
-                return tmp;
-
-            if (txt.ToUpper().Equals("NO CARRIER NAME"))
-                tmp = "OPEN";
-            else if (txt.ToUpper().Equals("MOVISTAR"))
-                tmp = "TELEFONICA";
-            else if (txt.ToUpper().Equals("OPEN MARKET") || txt.ToUpper().Equals("ICE(OPEN)"))
-                tmp = "OPEN";
-            else if (txt.ToUpper().Equals("ALEGRO_PCS"))
-                tmp = "ALEGRO";
-            else if (txt.ToUpper().Equals("ICE(COSTA RICA)"))
-                tmp = "ICE";
-            else if (txt.ToUpper().Equals("C&W"))
-                tmp = "CNW";
+            // if there is no text, return here
+            if (txt.Trim().Length < 1)
+                return;
             else
-                tmp = txt.ToUpper().ToString();
-
-            return tmp;
+            {
+                // if not, get the carrier name
+                Carrier c = new Carrier();
+                c.Name = txt.Trim().ToUpper();
+                this.carrierName = c.Name;
+            }
         }
 
-        private String extractCountryName(String txt)
+        private void extractCountryName(String txt)
         {
-            String tmp = "NO COUNTRY NAME";
+            this.country = "NO COUNTRY NAME";
+            Country c = new Country();
 
-            if (txt != null)
-                tmp = txt;
+            if (txt.Trim().Length < 1)
+                c.Name = "";
             else
-                return tmp;
+                c.Name = txt;
+
+            this.country = c.Name;
 
             CountryCode cc = new CountryCode();
-            cc = listCountryCodes.Find(delegate(CountryCode c) { return (c.Country.Equals(tmp)); });
+            cc = listCountryCodes.Find(delegate(CountryCode country) { return (country.Country.Equals(this.country)); });
             if (cc==null)
             {
-                if (tmp.ToUpper().Equals("NO COUNTRY NAME"))
-                    tmp = "VENEZUELA";
-                else if (tmp.ToUpper().Contains("MID."))
-                    tmp = "CENTRAL AMERICA";
-                else if (tmp.ToUpper().Equals("UNIFIED"))
-                    tmp = "UNIFIED";
-                else if (tmp.ToUpper().Contains("PT."))
-                    tmp = "PUERTO RICO";
-                else if (tmp.ToUpper().Contains("CRI("))
-                    tmp = "COSTA RICA";
-                else if (tmp.ToUpper().Contains("DOMENICA"))
-                    tmp = "DOMINICA";
+                if (this.country.Equals("NO COUNTRY NAME"))
+                    this.country = "VENEZUELA";
+                else
+                    this.country = c.Name;
             }
-
-            return tmp;
         }
 
         public String Country
         {
             get { return this.country; }
-            set { this.country = extractCountryName(value.ToString());}
+            set {
+                if (value == null)
+                    extractCountryName("");
+                else
+                    extractCountryName(value.ToString());
+            }
         }
 
         public void setProjectStatus(String oriStatus)
