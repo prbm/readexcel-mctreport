@@ -112,7 +112,7 @@ namespace ReadExcelFile
                     this.projectStatus = "ECO";
                 else if (oriStatus.Equals("WAIT"))
                     this.projectStatus = "WAIT";
-                else
+                else if (oriStatus.Equals("RUNNING"))
                     this.projectStatus = "RUNNING";
             }
 

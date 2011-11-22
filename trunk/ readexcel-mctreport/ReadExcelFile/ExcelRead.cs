@@ -190,6 +190,13 @@ namespace ReadExcelFile
             List<Model> modelList = new List<Model>();
             String msg = @"INI: " + DateTime.Now.ToString("hh:mm:ss");
 
+            // get all selected columns
+            columnCount = 0;
+            int[] selectedColumns = new int[selectedColumnIndexes.Length];
+
+            foreach (int a in selectedColumnIndexes)
+                selectedColumns[columnCount++] = a;
+
             // get the emnumerator of elements in each array
             System.Collections.IEnumerator numberSelectedWorkSheetProcess = selectedWorkSheets.GetEnumerator();
 
@@ -217,13 +224,7 @@ namespace ReadExcelFile
                     // read all lines in the working spreadsheet
                     for (int rCount = 2; rCount < cellsRange.Rows.Count; rCount++)
                     {
-                        columnCount = 0;
-                        int[] selectedColumns = new int[selectedColumnIndexes.Length];
                         linha = rCount;
-
-                        // get all selected columns
-                        foreach (int a in selectedColumnIndexes)
-                            selectedColumns[columnCount++] = a;
 
                         m = new Model();
                         ca = new CA(listCountryCodes);
@@ -244,15 +245,16 @@ namespace ReadExcelFile
                         // read carrier name
                         cell = head[selectedColumns[2]].ToString() + rCount.ToString();
                         tmp = (string)cellsRange.get_Range(cell, cell).Value2;
+                        tmp = tmp.ToUpper().Trim();
                         if (ca.Country.Equals("ARGENTINA"))
                         {
                             int a = 999;
                         }
-                        if (ca.Country.Equals("ARGENTINA") && tmp.ToUpper().Equals("CLARO"))
+                        if (ca.Country.Equals("ARGENTINA") && tmp.Equals("CLARO"))
                             ca.CarrierName = "CTI";
-                        else if(ca.Country.Equals("UNIFIED") && tmp.ToUpper().Equals("TIGO")){
+                        else if(ca.Country.Equals("UNIFIED") && tmp.Equals("TIGO")){
                             ca.Country = "CENTRAL AMERICA";
-                            ca.CarrierName = tmp.ToUpper().Trim();
+                            ca.CarrierName = tmp;
                             }
                         else
                             ca.CarrierName = tmp.ToUpper().Trim();
