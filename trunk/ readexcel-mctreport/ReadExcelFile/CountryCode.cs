@@ -20,13 +20,23 @@ namespace ReadExcelFile
         public String Country
         {
             get { return country; }
-            set { country = value; }
+            set { 
+                // Normalize the country name
+                Country c = new Country();
+                c.Name = value;
+                this.country = c.Name;
+            }
         }
 
         public String Carrier
         {
             get { return carrier; }
-            set { carrier = value; }
+            set {
+                // normaliza the carrier Name;
+                Carrier c = new Carrier();
+                c.Name = value;
+                carrier = c.Name; 
+            }
         }
     }
 }

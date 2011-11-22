@@ -1,0 +1,48 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace ReadExcelFile
+{
+    class Country
+    {
+        private String name;
+
+        private void extractCountryName(String name)
+        {
+            this.name = "NO COUNTRY NAME";
+
+            // abort here if there is no name
+            if (name.Trim().Length < 1)
+                return;
+
+            if (name.Contains("MID."))
+                this.name = "CENTRAL AMERICA";
+            else if (name.Equals("UNIFIED"))
+                this.name = "UNIFIED";
+            else if (name.Contains("PT."))
+                this.name = "PUERTO RICO";
+            else if (name.Contains("CRI("))
+                this.name = "COSTA RICA";
+            else if (name.Contains("DOMENICA"))
+                this.name = "DOMINICA";
+            else
+                this.name = name.Trim().ToUpper();
+        }
+            
+
+        public String Name
+        {
+            get { return this.name; }
+            set
+            {
+                if (value == null)
+                    extractCountryName("");
+                else
+                    extractCountryName(value.Trim().ToUpper());
+            }
+
+        }
+    }
+}
