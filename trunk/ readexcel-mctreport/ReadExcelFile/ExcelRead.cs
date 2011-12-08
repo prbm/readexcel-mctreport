@@ -246,18 +246,28 @@ namespace ReadExcelFile
                         cell = head[selectedColumns[2]].ToString() + rCount.ToString();
                         tmp = (string)cellsRange.get_Range(cell, cell).Value2;
                         tmp = tmp.ToUpper().Trim();
-                        if (ca.Country.Equals("ARGENTINA"))
+                        //if (ca.Country.Equals("ARGENTINA"))
+                        if (ca.Country.Equals("UNIFIED"))
                         {
                             int a = 999;
                         }
                         if (ca.Country.Equals("ARGENTINA") && tmp.Equals("CLARO"))
                             ca.CarrierName = "CTI";
-                        else if(ca.Country.Equals("UNIFIED") && tmp.Equals("TIGO")){
-                            ca.Country = "CENTRAL AMERICA";
-                            ca.CarrierName = tmp;
-                            }
                         else
+                        {
                             ca.CarrierName = tmp.ToUpper().Trim();
+                            if(ca.CarrierName.Equals("TIGO") || ca.CarrierName.Equals("TELEFONICA") || ca.CarrierName.Equals("CLARO"))
+                                if(ca.Country.Equals("UNIFIED"))
+                                    ca.Country = "CENTRAL AMERICA";
+                        }
+                        ////else if (ca.Country.Equals("UNIFIED") && tmp.Equals("TIGO"))
+                        //else if (ca.Country.Equals("UNIFIED") && (tmp.Equals("TIGO") || tmp.Equals("TELEFONICA") || tmp.Equals("CLARO")))
+                        //{
+                        //    ca.Country = "CENTRAL AMERICA";
+                        //    ca.CarrierName = tmp;
+                        //    }
+                        //else
+                            
 
                         // read man month value
                         ca.MediumManMonth = 0.0;
