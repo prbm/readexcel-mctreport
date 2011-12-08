@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 
 namespace ReadExcelFile
 {
@@ -17,7 +18,7 @@ namespace ReadExcelFile
             if (name.Trim().Length < 1)
                 return;
 
-            if (name.Contains("MID."))
+            if (name.Contains("MID.") || name.Equals("GUATEMALA") || name.Equals("NICARAGUA"))
                 this.name = "CENTRAL AMERICA";
             else if (name.Equals("UNIFIED"))
                 this.name = "UNIFIED";
