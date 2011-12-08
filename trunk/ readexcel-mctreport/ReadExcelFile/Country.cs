@@ -24,6 +24,12 @@ namespace ReadExcelFile
                 this.name = "UNIFIED";
             else if (name.Contains("PT."))
                 this.name = "PUERTO RICO";
+            else if (name.Contains("(CHILE"))
+                this.name = "CHILE";
+            else if (name.Contains("(PANAMA"))
+                this.name = "PANAMA";
+            else if (name.Contains("(CARIB_JAMAICA") || name.Contains("(JAMAICA"))
+                this.name = "JAMAICA";
             else if (name.Contains("CRI("))
                 this.name = "COSTA RICA";
             else if (name.Contains("DOMENICA"))

@@ -28,8 +28,16 @@ namespace ReadExcelFile
             // get the final name of carrier
             if (name.Equals("NO CARRIER NAME"))
                 this.name = "OPEN";
-            else if (name.Equals("MOVISTAR"))
+            else if (name.Equals("MOVISTAR") || name.Equals("TELEFONICA(COSTA RICA)"))
                 this.name = "TELEFONICA";
+            else if (name.Equals("VTR(CHILE)"))
+                this.name = "VTR";
+            else if (name.Equals("CT MIAMI(PANAMA)"))
+                this.name = "CT MIAMI";
+            else if (name.Equals("VIVA(DOMINICA)"))
+                this.name = "VIVA";
+            else if (name.Equals("CLARO(JAMAICA)"))
+                this.name = "CLARO";
             else if (name.Equals("OPEN MARKET"))
                 this.name = "OPEN";
             else if (name.Equals("ALEGRO_PCS"))
