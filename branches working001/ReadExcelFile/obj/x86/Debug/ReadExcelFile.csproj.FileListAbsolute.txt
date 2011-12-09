@@ -1,0 +1,24 @@
+C:\trabalho\MyTools\ReadExcelFile\ReadExcelFile\obj\x86\Debug\Interop.ADOX.dll
+C:\trabalho\MyTools\ReadExcelFile\ReadExcelFile\obj\x86\Debug\ReadExcelFile.csproj.ResolveComReference.cache
+C:\trabalho\MyTools\ReadExcelFile\ReadExcelFile\bin\Debug\ReadExcelFile.exe
+C:\trabalho\MyTools\ReadExcelFile\ReadExcelFile\bin\Debug\ReadExcelFile.pdb
+C:\trabalho\MyTools\ReadExcelFile\ReadExcelFile\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\trabalho\MyTools\ReadExcelFile\ReadExcelFile\obj\x86\Debug\ReadExcelFile.frmPreviewExcel.resources
+C:\trabalho\MyTools\ReadExcelFile\ReadExcelFile\obj\x86\Debug\ReadExcelFile.frmReadExcelMain.resources
+C:\trabalho\MyTools\ReadExcelFile\ReadExcelFile\obj\x86\Debug\ReadExcelFile.Properties.Resources.resources
+C:\trabalho\MyTools\ReadExcelFile\ReadExcelFile\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\trabalho\MyTools\ReadExcelFile\ReadExcelFile\obj\x86\Debug\GenerateResource.write.1.tlog
+C:\trabalho\MyTools\ReadExcelFile\ReadExcelFile\obj\x86\Debug\ReadExcelFile.exe
+C:\trabalho\MyTools\ReadExcelFile\ReadExcelFile\obj\x86\Debug\ReadExcelFile.pdb
+C:\trabalho\tools\read-excel\ readexcel-mctreport\ReadExcelFile\bin\Debug\ReadExcelFile.exe
+C:\trabalho\tools\read-excel\ readexcel-mctreport\ReadExcelFile\bin\Debug\ReadExcelFile.pdb
+C:\trabalho\tools\read-excel\ readexcel-mctreport\ReadExcelFile\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\trabalho\tools\read-excel\ readexcel-mctreport\ReadExcelFile\obj\x86\Debug\Interop.ADOX.dll
+C:\trabalho\tools\read-excel\ readexcel-mctreport\ReadExcelFile\obj\x86\Debug\ReadExcelFile.csproj.ResolveComReference.cache
+C:\trabalho\tools\read-excel\ readexcel-mctreport\ReadExcelFile\obj\x86\Debug\ReadExcelFile.frmPreviewExcel.resources
+C:\trabalho\tools\read-excel\ readexcel-mctreport\ReadExcelFile\obj\x86\Debug\ReadExcelFile.frmReadExcelMain.resources
+C:\trabalho\tools\read-excel\ readexcel-mctreport\ReadExcelFile\obj\x86\Debug\ReadExcelFile.Properties.Resources.resources
+C:\trabalho\tools\read-excel\ readexcel-mctreport\ReadExcelFile\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\trabalho\tools\read-excel\ readexcel-mctreport\ReadExcelFile\obj\x86\Debug\GenerateResource.write.1.tlog
+C:\trabalho\tools\read-excel\ readexcel-mctreport\ReadExcelFile\obj\x86\Debug\ReadExcelFile.exe
+C:\trabalho\tools\read-excel\ readexcel-mctreport\ReadExcelFile\obj\x86\Debug\ReadExcelFile.pdb
