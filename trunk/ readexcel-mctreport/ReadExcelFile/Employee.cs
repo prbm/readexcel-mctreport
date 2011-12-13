@@ -7,17 +7,30 @@ namespace ReadExcelFile
 {
     class Employee
     {
-        String name;
-        DateTime date;
-        DateTime arrival;
-        DateTime left;
-        TimeSpan workingHours;
+        private Int32 id;
+        private String name;
+        private Int32 companyId;
+        private DateTime date;
+        private DateTime arrival;
+        private DateTime left;
+        private TimeSpan workingHours;
 
+        public Int32 Id
+        {
+            get { return id; }
+            set { id = value; }
+        }
 
         public String Name
         {
             get{return name;}
             set{name = value;}
+        }
+
+        public Int32 CompanyId
+        {
+            get { return companyId; }
+            set { companyId = value; }
         }
 
         public DateTime Arrival

@@ -34,6 +34,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MySql.Data, Version=1.0.10.1, Culture=neutral, PublicKeyToken=c5687fc88969c44d">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\tools\MySQL\MySQL Connector Net 1.0.10.1\Binaries\.NET 1.1\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Npgsql">
+      <HintPath>..\..\..\..\..\tools\PostrGreSQL9\add-ons\Npgsql\ms.net4.0\Npgsql.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -50,8 +57,15 @@
     <Compile Include="Carrier.cs" />
     <Compile Include="Country.cs" />
     <Compile Include="CountryCode.cs" />
+    <Compile Include="DailyReportDB.cs" />
     <Compile Include="ExcelColumns.cs" />
     <Compile Include="ExcelRead.cs" />
+    <Compile Include="frmManMonthGenerator.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmManMonthGenerator.Designer.cs">
+      <DependentUpon>frmManMonthGenerator.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmPreviewExcel.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -65,12 +79,22 @@
       <DependentUpon>frmReadExcelMain.cs</DependentUpon>
     </Compile>
     <Compile Include="ManMonthCalculus.cs" />
+    <Compile Include="ManMonthDB.cs" />
     <Compile Include="Model.cs" />
     <Compile Include="Employee.cs" />
+    <Compile Include="PMSStatus.cs" />
+    <Compile Include="PMSStatusCollection.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="Project.cs" />
+    <Compile Include="ProjectCA.cs" />
+    <Compile Include="ProjectCACollection.cs" />
+    <Compile Include="ProjectCAStatus.cs" />
+    <Compile Include="ProjectDB.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Subsidiary.cs" />
     <Compile Include="WriteExcel.cs" />
+    <EmbeddedResource Include="frmManMonthGenerator.resx">
+      <DependentUpon>frmManMonthGenerator.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmPreviewExcel.resx">
       <DependentUpon>frmPreviewExcel.cs</DependentUpon>
     </EmbeddedResource>

@@ -92,7 +92,6 @@ namespace ReadExcelFile
             Excel.Range excelRange;
             Int32 numCols = 1;
             Int32 initialCharCode = 65;
-            String[] tmp = null;
 
             // get the list of column heads
             System.Collections.IEnumerator columnHeads = headColumns.GetEnumerator();
@@ -122,21 +121,13 @@ namespace ReadExcelFile
 
                 // process all lines in the bi-dimensional array to write to Excel file
                 for (int row = 2; row <= cellValues.GetLength(0); row++)
-                {
                     // process all columns in the secone dimension of the array
                     for (int column = 1; column < numCols; column++)
                     {
                         // write data to the cell
                         excelRange = excelWSheet.get_Range(columnsChars[column - 1].ToString() + row.ToString(), Type.Missing);
-                        if (column == 1)
-                        {
-                            tmp = cellValues[row - 1, column - 1].Split('.');
-                            excelRange.Value = tmp[0];
-                        }
-                        else
-                            excelRange.Value = cellValues[row-1, column-1];
+                        excelRange.Value = cellValues[row - 1, column - 1];
                     }
-                }
 
                 Object[] columns = new Object[headColumns.Length];
                 for(int i = 0; i < headColumns.Length; i++)

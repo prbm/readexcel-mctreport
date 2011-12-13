@@ -142,7 +142,7 @@ namespace ReadExcelFile
             SaveFileDialog sfd = new SaveFileDialog();
             sfd.InitialDirectory = "C:\\";
             sfd.Filter = "Excel files 1997-2003 (*.xls)|*.xls|Excel files 2007-2011 (*.xlsx)|*.xlsx";
-            sfd.FilterIndex = 1;
+            sfd.FilterIndex = 2;
 
             try
             {
@@ -372,6 +372,12 @@ namespace ReadExcelFile
             }// end switch
 
             return true;
+        }
+
+        private void pbMM_Click(object sender, EventArgs e)
+        {
+            Form form = new frmManMonthGenerator();
+            form.Show();
         }// end method checkIfScreenItemsAreOk
 
     }
