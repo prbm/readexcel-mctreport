@@ -10,6 +10,7 @@ namespace ReadExcelFile
     {
         private String carrierName;
         private String country;
+        private String prmsCode;
         private String subsidiary;
         private String projectStatus;
         private Double numberWorkingPeople;
@@ -195,6 +196,12 @@ namespace ReadExcelFile
         {
             get { return this.subsidiary; }
             set { this.subsidiary = value.Trim().ToString(); }
+        }
+
+        public String PRMSCode
+        {
+            get { return this.prmsCode; }
+            set { this.prmsCode = value.Trim().ToString(); }
         }
 
     }

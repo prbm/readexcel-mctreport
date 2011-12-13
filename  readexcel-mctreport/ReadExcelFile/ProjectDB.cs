@@ -5,14 +5,14 @@ using System.Text;
 
 namespace ReadExcelFile
 {
-    class Project
+    class ProjectDB
     {
         String  name;
         Int32   quantity;
         List<CA> cas;
         List<String> countries;
         
-        public Project()
+        public ProjectDB()
         {
             cas = new List<CA>();
             countries = new List<String>();

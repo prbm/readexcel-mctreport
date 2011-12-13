@@ -30,7 +30,8 @@ namespace ReadExcelFile
                 this.name = "PANAMA";
             else if (name.Contains("(CARIB_JAMAICA") || name.Contains("(JAMAICA"))
                 this.name = "JAMAICA";
-            else if (name.Contains("CRI("))
+//            else if (name.Contains("CRI") || name.Contains("CRI(") || name.Equals("CRI(COSTA RICA)"))
+            else if (name.Contains("CRI(") || name.Contains("CRI (") || name.Equals("CRI(COSTA RICA)"))
                 this.name = "COSTA RICA";
             else if (name.Contains("DOMENICA"))
                 this.name = "DOMINICA";

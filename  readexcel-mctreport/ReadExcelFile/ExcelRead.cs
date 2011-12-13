@@ -12,7 +12,7 @@ namespace ReadExcelFile
     class ExcelRead
     {
         Excel.Application excelApp;
-        List<Project> projectList;
+        List<ProjectDB> projectList;
         private List<String> columnHeads;
         private List<String> wSheets;
         private String[,] cellValues;
@@ -21,7 +21,7 @@ namespace ReadExcelFile
         public ExcelRead()
         {
             excelApp = new Excel.Application();
-            this.projectList = new List<Project>();
+            this.projectList = new List<ProjectDB>();
             cellValues = null;
         }
 
@@ -956,7 +956,7 @@ namespace ReadExcelFile
             }
         }
 
-        public List<Project> ProjectList
+        public List<ProjectDB> ProjectList
         {
             get
             {

@@ -22,3 +22,15 @@ C:\trabalho\tools\read-excel\ readexcel-mctreport\ReadExcelFile\obj\x86\Debug\Ge
 C:\trabalho\tools\read-excel\ readexcel-mctreport\ReadExcelFile\obj\x86\Debug\GenerateResource.write.1.tlog
 C:\trabalho\tools\read-excel\ readexcel-mctreport\ReadExcelFile\obj\x86\Debug\ReadExcelFile.exe
 C:\trabalho\tools\read-excel\ readexcel-mctreport\ReadExcelFile\obj\x86\Debug\ReadExcelFile.pdb
+C:\trabalho\tools\read-excel\ readexcel-mctreport\ReadExcelFile\obj\x86\Debug\ReadExcelFile.frmManMonthGenerator.resources
+C:\trabalho\tools\read-excel\ readexcel-mctreport\ReadExcelFile\bin\Debug\Npgsql.dll
+C:\trabalho\tools\read-excel\ readexcel-mctreport\ReadExcelFile\bin\Debug\Mono.Security.dll
+C:\trabalho\tools\read-excel\ readexcel-mctreport\ReadExcelFile\bin\Debug\Npgsql.pdb
+C:\trabalho\tools\read-excel\ readexcel-mctreport\ReadExcelFile\bin\Debug\Npgsql.xml
+C:\trabalho\tools\read-excel\ readexcel-mctreport\ReadExcelFile\bin\Debug\de\Npgsql.resources.dll
+C:\trabalho\tools\read-excel\ readexcel-mctreport\ReadExcelFile\bin\Debug\es\Npgsql.resources.dll
+C:\trabalho\tools\read-excel\ readexcel-mctreport\ReadExcelFile\bin\Debug\fi\Npgsql.resources.dll
+C:\trabalho\tools\read-excel\ readexcel-mctreport\ReadExcelFile\bin\Debug\fr\Npgsql.resources.dll
+C:\trabalho\tools\read-excel\ readexcel-mctreport\ReadExcelFile\bin\Debug\ja\Npgsql.resources.dll
+C:\trabalho\tools\read-excel\ readexcel-mctreport\ReadExcelFile\bin\Debug\zh-CN\Npgsql.resources.dll
+C:\trabalho\tools\read-excel\ readexcel-mctreport\ReadExcelFile\bin\Debug\MySql.Data.dll

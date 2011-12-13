@@ -48,6 +48,7 @@
             this.pbBrowseExceptionSheet = new System.Windows.Forms.Button();
             this.pbProjectStatusList = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.pbMM = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // tbFileOpenPath
@@ -170,10 +171,18 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // pbMM
+            // 
+            resources.ApplyResources(this.pbMM, "pbMM");
+            this.pbMM.Name = "pbMM";
+            this.pbMM.UseVisualStyleBackColor = true;
+            this.pbMM.Click += new System.EventHandler(this.pbMM_Click);
+            // 
             // frmReadExcelMain
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.pbMM);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.pbProjectStatusList);
             this.Controls.Add(this.pbBrowseExceptionSheet);
@@ -220,6 +229,7 @@
         private System.Windows.Forms.Button pbBrowseExceptionSheet;
         private System.Windows.Forms.Button pbProjectStatusList;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button pbMM;
     }
 }
 
