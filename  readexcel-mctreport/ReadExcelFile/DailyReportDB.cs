@@ -150,6 +150,21 @@ namespace ReadExcelFile
 
                     result.Add(emp);
                 }
+                else if (t.Name.ToString().Equals("Model"))
+                {
+                    Model m = new Model();
+                    m.ModelID = Convert.ToInt32(dr.GetValue(0));
+                    m.ModelCode = ((String)dr.GetValue(1)).Trim();
+
+                    result.Add(m);
+                }
+                else
+                {
+                    tmp = new Object[dr.FieldCount];
+                    dr.GetValues(tmp);
+
+                    result.Add(tmp);
+                }
             }
 
             return result;

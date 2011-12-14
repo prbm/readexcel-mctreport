@@ -178,16 +178,45 @@ namespace ReadExcelFile
 
             dailyIdUsers = dailyIdUsers.Substring(0, dailyIdUsers.Length - 4) + ")";
 
-            MessageBox.Show("Insert: " + dailyIdUsers);
+            //MessageBox.Show("Insert: " + dailyIdUsers);
 
             if (!drDb.closeConnection())
                 return;
 
 
+            /***********************************
+             * * READ MODEL IDS FROM DATABASE **
+             * *********************************/
+            List<Model> models = new List<Model>();
+            drDb = new DailyReportDB("project_course");
+            if (!drDb.openConnection())
+                return;
+
+            String modelIDs = "(";
+
+            //obj = drDb.select("SELECT (idModel, name) FROM model", typeof(Model));
+            obj = drDb.select("SELECT * FROM model", typeof(Model));
+            foreach (Model m in obj)
+            {
+                models.Add(m);
+                modelIDs += "effortxproject.idModel=" + m.ModelID + " || ";
+            }
+
+            modelIDs = modelIDs.Substring(0, modelIDs.Length - 4) + ")";
+
+            //MessageBox.Show("Insert: " + modelIDs);
+
+            if (!drDb.closeConnection())
+                return;
+
+
+            /*********************************************
+             ** GET TOTAL NUMBER OF HOURS FROM DATABASE **
+             ********************************************/
             String cmd = "SELECT SUM(TIME_TO_SEC(effortxproject.time)) FROM effortxproject INNER JOIN (effort, daily) ";
             cmd += "ON (daily.idDaily=effort.idDaily AND effortxproject.idEffort = effort.idEffort) WHERE ";
             cmd += "(daily.date > '2011-10-31' AND daily.date<'2011-12-01') AND ";
-            cmd += "(effortxproject.idModel = 190) AND " + dailyIdUsers;
+            cmd += modelIDs + " AND " + dailyIdUsers;
 
             drDb = new DailyReportDB();
 
@@ -195,6 +224,19 @@ namespace ReadExcelFile
                 return;
 
             MessageBox.Show("Calculated Hours = " + (Convert.ToDouble(drDb.selectCount(cmd)) / 3600).ToString("#.##"));
+
+            if (!drDb.closeConnection())
+                return;
+
+            if (!drDb.openConnection())
+                return;
+
+            cmd = "SELECT * FROM effortxproject INNER JOIN (effort, daily) ";
+            cmd += "ON (daily.idDaily=effort.idDaily AND effortxproject.idEffort = effort.idEffort) WHERE ";
+            cmd += "(daily.date > '2011-10-31' AND daily.date<'2011-12-01') AND ";
+            cmd += modelIDs + " AND " + dailyIdUsers;
+
+            drDb.select(cmd, typeof(Object));
 
             if (!drDb.closeConnection())
                 return;
