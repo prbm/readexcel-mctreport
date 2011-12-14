@@ -7,6 +7,7 @@ namespace ReadExcelFile
 {
     class Model
     {
+        private Int32 modelID;
         private String modelCode;
         private CA modelCA;
 
@@ -50,6 +51,13 @@ namespace ReadExcelFile
                 return "NO MODEL NAME";
             else
                 return tmp;
+        }
+
+
+        public Int32 ModelID
+        {
+            get { return modelID; }
+            set { modelID = value; }
         }
 
         public String ModelCode
