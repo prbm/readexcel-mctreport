@@ -131,7 +131,6 @@ namespace ReadExcelFile
                     pCA.CarrierName = carrier.Name;
                 }
 
-
                 // get status code
                 tmpText = values[cont, 4];
                 if (tmpText != null)
@@ -241,7 +240,28 @@ namespace ReadExcelFile
             if (!drDb.closeConnection())
                 return;
 
+            drDb = new DailyReportDB("project_course");
+
+            if (!drDb.openConnection())
+                return;
+
+            cmd = "SELECT * FROM carrier";
+
+            obj = drDb.select(cmd, typeof(ProjectCourseCarrier));
+
+            if (!drDb.closeConnection())
+                return;
+
+            List<ProjectCourseCarrier> pCCs = new List<ProjectCourseCarrier>();
+            foreach (ProjectCourseCarrier pcc in obj)
+                pCCs.Add(pcc);
+
+
+
             return;
+
+
+
 
 
 

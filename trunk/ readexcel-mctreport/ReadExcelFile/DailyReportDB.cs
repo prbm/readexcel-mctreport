@@ -158,6 +158,15 @@ namespace ReadExcelFile
 
                     result.Add(m);
                 }
+                else if (t.Name.ToString().Equals("ProjectCourseCarrier"))
+                {
+                    ProjectCourseCarrier m = new ProjectCourseCarrier();
+                    m.IdCarrier = Convert.ToInt32(dr.GetValue(0));
+                    m.IdCountry = Convert.ToInt32(dr.GetValue(1));
+                    m.Name = ((String)dr.GetValue(2)).Trim();
+
+                    result.Add(m);
+                }
                 else
                 {
                     tmp = new Object[dr.FieldCount];

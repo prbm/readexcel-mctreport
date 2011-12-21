@@ -9,15 +9,23 @@ namespace ReadExcelFile
     {
         private Int32 modelID;
         private String modelCode;
+        private String projectCode;
         private CA modelCA;
 
         public String extractModelName(String txt)
         {
             String tmp = "NO MODEL NAME";
+            String[] b = null;
 
             if (txt != null)
                 tmp = txt;
-            
+
+            if (txt.Contains("."))
+            {
+                b = txt.Split('.');
+                tmp = b[0];
+            }
+
             // remove undesirable characters in the code portions below
             // remove - character
             if (tmp.Contains("-"))
@@ -86,6 +94,13 @@ namespace ReadExcelFile
                 }
 
             }
+        }
+
+
+        public String ProjectCode
+        {
+            get { return projectCode; }
+            set { projectCode = value; }
         }
 
     }
