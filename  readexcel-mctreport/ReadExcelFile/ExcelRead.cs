@@ -328,9 +328,13 @@ namespace ReadExcelFile
 
                     linha = counter;
 
+                    if (linha == 764)
+                        linha = linha;
+
                     // read model name
                     tmp = (string)excelRange.get_Range("A" + counter, "A" + counter).Value2;
                     m.ModelCode = tmp.ToUpper().Trim();
+                    m.ProjectCode = tmp.ToUpper().Trim();
 
                     // read country name
                     tmp = (string)excelRange.get_Range("B" + counter, "B" + counter).Value2;
@@ -360,6 +364,7 @@ namespace ReadExcelFile
                         // update model data with status information
                         modelList.Remove(mtmp);
                         mtmp.ModelCA.ProjectStatus = ca.ProjectStatus;
+                        mtmp.ProjectCode = m.ProjectCode;
                         modelList.Add(mtmp);
                     }
 
@@ -388,7 +393,7 @@ namespace ReadExcelFile
                  ******************************/
                 // write date to the spreadsheet
                 xlWorkSheet.Name = "All Projects";
-                Excel.Range xlRange = xlWorkSheet.get_Range("A1", "G" + modelList.Count.ToString());
+                Excel.Range xlRange = xlWorkSheet.get_Range("A1", "H" + modelList.Count.ToString());
                 Int32 row = 2;
                 // set column heads
                 xlRange = xlWorkSheet.get_Range("A1", "A1");
@@ -405,6 +410,8 @@ namespace ReadExcelFile
                 xlRange.Value = "Number of People Reporting Hours";
                 xlRange = xlWorkSheet.get_Range("G1", "G1");
                 xlRange.Value = "Subsidiary";
+                xlRange = xlWorkSheet.get_Range("H1", "H1");
+                xlRange.Value = "Code";
 
                 // fulfill all the rows
                 foreach (Model model in modelList)
@@ -425,6 +432,8 @@ namespace ReadExcelFile
                     xlRange.Value = model.ModelCA.PeopleReportedHours;
                     xlRange = xlWorkSheet.get_Range("G" + row.ToString(), "G" + row.ToString());
                     xlRange.Value = model.ModelCA.Subsidiary;
+                    xlRange = xlWorkSheet.get_Range("H" + row.ToString(), "H" + row.ToString());
+                    xlRange.Value = model.ProjectCode;
 
                     row++;
                 }
