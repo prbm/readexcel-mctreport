@@ -1,0 +1,8 @@
+﻿<Window x:Class="ReadDailyReportDB.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid>
+        <Button Content="Connect DB..." Height="33" HorizontalAlignment="Left" Margin="39,31,0,0" Name="pbConnectDB" VerticalAlignment="Top" Width="99" Click="pbConnectDB_Click" />
+    </Grid>
+</Window>

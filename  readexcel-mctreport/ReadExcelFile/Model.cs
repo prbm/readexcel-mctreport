@@ -91,6 +91,7 @@ namespace ReadExcelFile
                     modelCA.ProjectStatus = value.ProjectStatus;
                     modelCA.PeopleReportedHours = value.PeopleReportedHours;
                     modelCA.setSubsidiary(modelCA.Country);
+                    modelCA.ListReportedHours = value.ListReportedHours;
                 }
 
             }

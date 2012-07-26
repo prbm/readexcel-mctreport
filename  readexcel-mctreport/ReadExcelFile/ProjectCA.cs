@@ -15,6 +15,11 @@ namespace ReadExcelFile
         private Int32 pdStatusProject;
         private PMSStatus pmsStatus;
         private ProjectCAStatus pcaStatus;
+        private List<ProjectReportedHours> pRH;
+        internal List<ProjectReportedHours> PRH
+        {
+            get { return pRH; }
+        }
 
         public ProjectCA()
         {

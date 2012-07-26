@@ -53,6 +53,9 @@ namespace ReadExcelFile
             String[,] values;
             ExcelRead er = new ExcelRead();
             DateTime today = DateTime.Now;
+            DateTime initSearchDate = new DateTime(2011, 12, 28);
+            DateTime endSearchDate = new DateTime(2012, 1, 27);
+            String searchDateFormat = "yyyy-MM-dd";
 
             Cursor.Current = Cursors.WaitCursor;
 
@@ -214,7 +217,7 @@ namespace ReadExcelFile
              ********************************************/
             String cmd = "SELECT SUM(TIME_TO_SEC(effortxproject.time)) FROM effortxproject INNER JOIN (effort, daily) ";
             cmd += "ON (daily.idDaily=effort.idDaily AND effortxproject.idEffort = effort.idEffort) WHERE ";
-            cmd += "(daily.date > '2011-10-31' AND daily.date<'2011-12-01') AND ";
+            cmd += "(daily.date>='" + initSearchDate.Date.ToString(searchDateFormat) + "' AND daily.date<='" + endSearchDate.Date.ToString(searchDateFormat) + "') AND ";
             cmd += modelIDs + " AND " + dailyIdUsers;
 
             drDb = new DailyReportDB();
@@ -222,7 +225,7 @@ namespace ReadExcelFile
             if (!drDb.openConnection())
                 return;
 
-            MessageBox.Show("Calculated Hours = " + (Convert.ToDouble(drDb.selectCount(cmd)) / 3600).ToString("#.##"));
+            MessageBox.Show("Total of Reported Hours for the Period = " + (Convert.ToDouble(drDb.selectCount(cmd)) / 3600).ToString("#.##"));
 
             if (!drDb.closeConnection())
                 return;
@@ -230,12 +233,46 @@ namespace ReadExcelFile
             if (!drDb.openConnection())
                 return;
 
+            /*******************************************************************************
+             * * GET HOURS FOR EACH ACTIVITY THAT WAS REPORTED WORKING HOURS IN DATABASE * *
+             *******************************************************************************/
             cmd = "SELECT * FROM effortxproject INNER JOIN (effort, daily) ";
             cmd += "ON (daily.idDaily=effort.idDaily AND effortxproject.idEffort = effort.idEffort) WHERE ";
-            cmd += "(daily.date > '2011-10-31' AND daily.date<'2011-12-01') AND ";
+            cmd += "(daily.date>='" + initSearchDate.Date.ToString(searchDateFormat) + "' AND daily.date<='" + endSearchDate.Date.ToString(searchDateFormat) + "') AND ";
             cmd += modelIDs + " AND " + dailyIdUsers;
 
-            drDb.select(cmd, typeof(Object));
+            obj = drDb.select(cmd, typeof(ProjectReportedHours));
+            List<ProjectReportedHours> pRH = new List<ProjectReportedHours>();
+            foreach (ProjectReportedHours m in obj)
+            {
+                ProjectReportedHours projectRH = new ProjectReportedHours();
+
+                if (pCAs.Find(delegate(ProjectCA pca) { return (pca.Id == m.ProjectId); }) == null)
+                {
+                    //projectRH.ProjectId = m.ProjectId;
+                    //projectRH.EmployeeId = m.EmployeeId;
+                    //projectRH.AmountReported = m.AmountReported;
+                    //projectRH.Month = m.Month;
+                    //projectRH.Year = m.Year;
+
+                    //pRH.Add(projectRH);
+                    continue;
+                }
+                else
+                {
+                    ProjectCA pCA = pCAs.Find(delegate(ProjectCA pca) { return (pca.Id == m.ProjectId); });
+
+                    if (pCA.PRH.Find(delegate(ProjectReportedHours prh) { return (prh.EmployeeId == m.EmployeeId); }) != null)
+                    {
+                        if (pCA.PRH.Find(delegate(ProjectReportedHours prh) { return (prh.EmployeeId == m.EmployeeId && prh.Month == m.Month && prh.Year == m.Year); }) != null)
+                        {
+                            projectRH.ProjectId = m.ProjectId;
+                        }
+                    }
+                }
+
+
+            }            
 
             if (!drDb.closeConnection())
                 return;

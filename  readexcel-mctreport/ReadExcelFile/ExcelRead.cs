@@ -68,7 +68,10 @@ namespace ReadExcelFile
             Int32 rowCount = 0, columnCount = 0;
             String[,] cells = null;
 
-            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
+            String culture = Thread.CurrentThread.CurrentCulture.Name;
+
+            //if (!culture.Equals("en-US"))
+            //    Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
             String format = "yyyy/MM/dd";
 
             try
@@ -118,7 +121,12 @@ namespace ReadExcelFile
                                     if (numberFormat.ToLower().Contains("yyyy"))
                                     {
                                         DateTime date = DateTime.FromOADate(Convert.ToDouble(obj));
-                                        String tmp = date.ToString("dd/MM/yy");
+                                        String tmp = null;
+                                        if(Thread.CurrentThread.CurrentCulture.Name.Equals("en-US"))
+                                            tmp = date.ToString("MM/dd/yy");
+                                        else
+                                            tmp = date.ToString("dd/MM/yy");
+                                        //String tmp = date.ToString(dtTimeFmt.ShortDatePattern);
                                         String[] dt = tmp.Split('/');
                                         dt[0] = "20" + dt[0];
                                         DateTime dtime = new DateTime(Int32.Parse(dt[0]), Int32.Parse(dt[1]), Int32.Parse(dt[2]));
@@ -135,7 +143,13 @@ namespace ReadExcelFile
 
                                     String[] date = tmp.Split('/');
                                     date[0] = "20" + date[0];
-                                    DateTime dt = new DateTime(Int32.Parse(date[0]), Int32.Parse(date[1]), Int32.Parse(date[2]));
+                                    DateTime dt;
+
+                                    if (Thread.CurrentThread.CurrentCulture.Name.Equals("en-US"))
+                                        dt = new DateTime(Int32.Parse(date[0]), Int32.Parse(date[2]), Int32.Parse(date[1]));
+                                    else
+                                        dt = new DateTime(Int32.Parse(date[0]), Int32.Parse(date[1]), Int32.Parse(date[2]));
+
                                     cells[rowCount, columnCount] = dt.ToString(format);
                                 }
                                 else if (obj.ToString().Contains(@"→"))
@@ -147,7 +161,13 @@ namespace ReadExcelFile
 
                                     String[] date = tmp.Split('/');
                                     date[0] = "20" + date[0];
-                                    DateTime dt = new DateTime(Int32.Parse(date[0]), Int32.Parse(date[1]), Int32.Parse(date[2]));
+                                    DateTime dt;
+
+                                    if (Thread.CurrentThread.CurrentCulture.Name.Equals("en-US"))
+                                        dt = new DateTime(Int32.Parse(date[0]), Int32.Parse(date[2]), Int32.Parse(date[1]));
+                                    else
+                                        dt = new DateTime(Int32.Parse(date[0]), Int32.Parse(date[1]), Int32.Parse(date[2]));
+
                                     cells[rowCount, columnCount] = dt.ToString(format);
                                 }
                                 else
@@ -175,6 +195,7 @@ namespace ReadExcelFile
             {
                 // close Excel Application
                 excelApp.Quit();
+                Thread.CurrentThread.CurrentCulture = new CultureInfo(culture);
             }
         }
 
@@ -278,33 +299,34 @@ namespace ReadExcelFile
                         else if (obj.GetType() == typeof(double))
                             ca.MediumManMonth = (double)obj;
 
-                        ca.MediumManMonth = ca.MediumManMonth / 1000;
+                        //ca.MediumManMonth = ca.MediumManMonth / 1000;
 
                         // read the number of people that reported hours in the project
                         cell = head[selectedColumns[4]].ToString() + rCount.ToString();
                         obj = cellsRange.get_Range(cell, cell).Value2;
-                        ca.PeopleReportedHours = 0;
+                        //ca.PeopleReportedHours = 0;
                         if (obj.GetType() == typeof(string))
                             ca.PeopleReportedHours = Int32.Parse((string)obj);
                         else if (obj.GetType() == typeof(double))
                             ca.PeopleReportedHours = Int32.Parse(obj.ToString());
 
+                        Model tmpModel = modelList.Find(delegate(Model mm) { return (mm.ModelCode.ToUpper().Equals(m.ModelCode.ToUpper()) && mm.ModelCA.CarrierName.ToUpper().Equals(ca.CarrierName.ToUpper()) && mm.ModelCA.Country.ToUpper().Equals(ca.Country.ToUpper()) && mm.ModelCA.MediumManMonth > 0); });
                         // add/update model information in the list
-                        if (modelList.Find(delegate(Model mm) { return (mm.ModelCode == m.ModelCode && mm.ModelCA.CarrierName == ca.CarrierName.ToUpper() && mm.ModelCA.Country == ca.Country.ToUpper() && mm.ModelCA.MediumManMonth > 0); }) == null){
+                        if (tmpModel == null){
+                            ca.setRepHour(ca.MediumManMonth, excelWSheet.Name);
                                 m.ModelCA = ca;
                                 modelList.Add(m);
                             }
                         else{
-                            Model tmpModel = modelList.Find(delegate(Model mm) { return (mm.ModelCode == m.ModelCode && mm.ModelCA.CarrierName == ca.CarrierName.ToUpper() && mm.ModelCA.Country == ca.Country.ToUpper() && mm.ModelCA.MediumManMonth > 0); });
-
                             // if a project already exists, update the value of manmonth for the project
                             ca.MediumManMonth += tmpModel.ModelCA.MediumManMonth;
-                            ca.PeopleReportedHours += tmpModel.ModelCA.PeopleReportedHours;
+                            ca.ListReportedHours = tmpModel.ModelCA.ListReportedHours;
+                            ca.setRepHour(ca.MediumManMonth, excelWSheet.Name);
                             modelList.Remove(tmpModel);
                             tmpModel.ModelCA = ca;
                             modelList.Add(tmpModel);
+                            tmpModel = null;
                         }
-
                     }
                 }
                 excelWBook.Close(true, null, null);
@@ -328,7 +350,7 @@ namespace ReadExcelFile
 
                     linha = counter;
 
-                    if (linha == 764)
+                    if (linha == 316)
                         linha = linha;
 
                     // read model name
@@ -392,8 +414,8 @@ namespace ReadExcelFile
                  * Man Month for All Projects *
                  ******************************/
                 // write date to the spreadsheet
-                xlWorkSheet.Name = "All Projects";
-                Excel.Range xlRange = xlWorkSheet.get_Range("A1", "H" + modelList.Count.ToString());
+                xlWorkSheet.Name = "BASIC MAN MONTH REPORT";
+                Excel.Range xlRange = xlWorkSheet.get_Range("A1", "L" + modelList.Count.ToString());
                 Int32 row = 2;
                 // set column heads
                 xlRange = xlWorkSheet.get_Range("A1", "A1");
@@ -405,12 +427,20 @@ namespace ReadExcelFile
                 xlRange = xlWorkSheet.get_Range("D1", "D1");
                 xlRange.Value = "Status";
                 xlRange = xlWorkSheet.get_Range("E1", "E1");
-                xlRange.Value = "Index";
+                xlRange.Value = "SW";
                 xlRange = xlWorkSheet.get_Range("F1", "F1");
-                xlRange.Value = "Number of People Reporting Hours";
+                xlRange.Value = "UFC";
                 xlRange = xlWorkSheet.get_Range("G1", "G1");
-                xlRange.Value = "Subsidiary";
+                xlRange.Value = "LSI";
                 xlRange = xlWorkSheet.get_Range("H1", "H1");
+                xlRange.Value = "PVG";
+                xlRange = xlWorkSheet.get_Range("I1", "I1");
+                xlRange.Value = "TAM";
+                xlRange = xlWorkSheet.get_Range("J1", "J1");
+                xlRange.Value = "BRISA";
+                xlRange = xlWorkSheet.get_Range("K1", "K1");
+                xlRange.Value = "Subsidiary";
+                xlRange = xlWorkSheet.get_Range("L1", "L1");
                 xlRange.Value = "Code";
 
                 // fulfill all the rows
@@ -424,20 +454,32 @@ namespace ReadExcelFile
                     xlRange.Value = model.ModelCA.CarrierName.ToString();
                     xlRange = xlWorkSheet.get_Range("D" + row.ToString(), "D" + row.ToString());
                     xlRange.Value = model.ModelCA.ProjectStatus;
-                    xlRange = xlWorkSheet.get_Range("E" + row.ToString(), "E" + row.ToString());
-                    xlRange.NumberFormat = "0.000000";
-                    xlRange.Value = model.ModelCA.MediumManMonth;
-                    xlRange = xlWorkSheet.get_Range("F" + row.ToString(), "F" + row.ToString());
-                    xlRange.NumberFormat = "00";
-                    xlRange.Value = model.ModelCA.PeopleReportedHours;
-                    xlRange = xlWorkSheet.get_Range("G" + row.ToString(), "G" + row.ToString());
+                    foreach (ReportHours rh in model.ModelCA.ListReportedHours)
+                    {
+                        if(rh.TeamName.Equals("SW"))
+                            xlRange = xlWorkSheet.get_Range("E" + row.ToString(), "E" + row.ToString());
+                        else if (rh.TeamName.Equals("UFC"))
+                            xlRange = xlWorkSheet.get_Range("F" + row.ToString(), "F" + row.ToString());
+                        else if (rh.TeamName.Equals("LSI"))
+                            xlRange = xlWorkSheet.get_Range("G" + row.ToString(), "G" + row.ToString());
+                        else if (rh.TeamName.Equals("PVG"))
+                            xlRange = xlWorkSheet.get_Range("H" + row.ToString(), "H" + row.ToString());
+                        else if (rh.TeamName.Equals("TAM"))
+                            xlRange = xlWorkSheet.get_Range("I" + row.ToString(), "I" + row.ToString());
+                        else if (rh.TeamName.Equals("BRISA"))
+                            xlRange = xlWorkSheet.get_Range("J" + row.ToString(), "J" + row.ToString());
+                        
+                        xlRange.NumberFormat = "0.000";
+                        xlRange.Value = rh.ReportedTime;
+                    }
+
+                    xlRange = xlWorkSheet.get_Range("K" + row.ToString(), "K" + row.ToString());
                     xlRange.Value = model.ModelCA.Subsidiary;
-                    xlRange = xlWorkSheet.get_Range("H" + row.ToString(), "H" + row.ToString());
+                    xlRange = xlWorkSheet.get_Range("L" + row.ToString(), "L" + row.ToString());
                     xlRange.Value = model.ProjectCode;
 
                     row++;
                 }
-
                 xlWorkBook.Close();
             }
             catch (Exception e)
