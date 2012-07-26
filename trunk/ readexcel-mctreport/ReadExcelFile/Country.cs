@@ -18,25 +18,26 @@ namespace ReadExcelFile
             if (name.Trim().Length < 1)
                 return;
 
+            name = name.Trim().ToUpper();
+
             if (name.Contains("MID.") || name.Equals("GUATEMALA") || name.Equals("NICARAGUA"))
                 this.name = "CENTRAL AMERICA";
             else if (name.Equals("UNIFIED"))
                 this.name = "UNIFIED";
-            else if (name.Contains("PT."))
+            else if (name.Contains("PT.") || name.Equals("PUERTORICO"))
                 this.name = "PUERTO RICO";
-            else if (name.Contains("(CHILE"))
+            else if (name.Contains("(CHILE") || name.Contains("CHL("))
                 this.name = "CHILE";
-            else if (name.Contains("(PANAMA"))
+            else if (name.Equals("PAN(PANAMA)") || name.Contains("(PANAMA"))
                 this.name = "PANAMA";
             else if (name.Contains("(CARIB_JAMAICA") || name.Contains("(JAMAICA"))
                 this.name = "JAMAICA";
-//            else if (name.Contains("CRI") || name.Contains("CRI(") || name.Equals("CRI(COSTA RICA)"))
             else if (name.Contains("CRI(") || name.Contains("CRI (") || name.Equals("CRI(COSTA RICA)"))
                 this.name = "COSTA RICA";
-            else if (name.Contains("DOMENICA"))
+            else if (name.Contains("DOMENICA") || name.Contains("DOMINICAN"))
                 this.name = "DOMINICA";
             else
-                this.name = name.Trim().ToUpper();
+                this.name = name;
         }
             
 

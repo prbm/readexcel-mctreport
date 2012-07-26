@@ -1,0 +1,14 @@
+C:\trabalho\tools\readexcel-mctreport\ readexcel-mctreport\GetCountryCodes\bin\Debug\GetCountryCodes.exe
+C:\trabalho\tools\readexcel-mctreport\ readexcel-mctreport\GetCountryCodes\bin\Debug\GetCountryCodes.pdb
+C:\trabalho\tools\readexcel-mctreport\ readexcel-mctreport\GetCountryCodes\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\trabalho\tools\readexcel-mctreport\ readexcel-mctreport\GetCountryCodes\obj\x86\Debug\GetCountryCarriers.csproj.ResolveComReference.cache
+C:\trabalho\tools\readexcel-mctreport\ readexcel-mctreport\GetCountryCodes\obj\x86\Debug\frmCountryCarriersPreview.baml
+C:\trabalho\tools\readexcel-mctreport\ readexcel-mctreport\GetCountryCodes\obj\x86\Debug\frmCountryCarriersPreview.g.cs
+C:\trabalho\tools\readexcel-mctreport\ readexcel-mctreport\GetCountryCodes\obj\x86\Debug\App.g.cs
+C:\trabalho\tools\readexcel-mctreport\ readexcel-mctreport\GetCountryCodes\obj\x86\Debug\GetCountryCodes_MarkupCompile.cache
+C:\trabalho\tools\readexcel-mctreport\ readexcel-mctreport\GetCountryCodes\obj\x86\Debug\GetCountryCodes.g.resources
+C:\trabalho\tools\readexcel-mctreport\ readexcel-mctreport\GetCountryCodes\obj\x86\Debug\GetCountryCodes.Properties.Resources.resources
+C:\trabalho\tools\readexcel-mctreport\ readexcel-mctreport\GetCountryCodes\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\trabalho\tools\readexcel-mctreport\ readexcel-mctreport\GetCountryCodes\obj\x86\Debug\GenerateResource.write.1.tlog
+C:\trabalho\tools\readexcel-mctreport\ readexcel-mctreport\GetCountryCodes\obj\x86\Debug\GetCountryCodes.exe
+C:\trabalho\tools\readexcel-mctreport\ readexcel-mctreport\GetCountryCodes\obj\x86\Debug\GetCountryCodes.pdb

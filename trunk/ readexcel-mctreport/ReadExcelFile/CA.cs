@@ -20,6 +20,7 @@ namespace ReadExcelFile
         private Double mediumWorkingHours;
         private Int32 peopleReportedHours;
         private List<CountryCode> listCountryCodes;
+        private List<ReportHours> reportedHours = new List<ReportHours>();
 
         public CA(){}
 
@@ -204,5 +205,26 @@ namespace ReadExcelFile
             set { this.prmsCode = value.Trim().ToString(); }
         }
 
+        public List<ReportHours> ListReportedHours
+        {
+            get { return reportedHours; }
+            set { reportedHours = value; }
+        }
+
+        public void setRepHour(double time, String name)
+        {
+            ReportHours rp = new ReportHours();
+            rp.TeamName = name;
+            rp.ReportedTime = time;
+
+            if (reportedHours == null)
+                reportedHours = new List<ReportHours>();
+
+            if (reportedHours.Find(delegate(ReportHours rep) { return rep.TeamName.ToUpper().Equals(rp.TeamName.ToUpper()); }) != null)
+                reportedHours.Remove(reportedHours.Find(delegate(ReportHours rep) { return rep.TeamName.ToUpper().Equals(rp.TeamName.ToUpper()); }));
+
+            reportedHours.Add(rp);
+
+        }
     }
 }

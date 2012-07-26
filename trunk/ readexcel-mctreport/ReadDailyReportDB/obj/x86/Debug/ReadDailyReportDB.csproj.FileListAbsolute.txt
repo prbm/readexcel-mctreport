@@ -1,0 +1,53 @@
+C:\trabalho\tools\read-excel\ readexcel-mctreport\ReadDailyReportDB\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\trabalho\tools\read-excel\ readexcel-mctreport\ReadDailyReportDB\obj\x86\Debug\MainWindow.baml
+C:\trabalho\tools\read-excel\ readexcel-mctreport\ReadDailyReportDB\obj\x86\Debug\MainWindow.g.cs
+C:\trabalho\tools\read-excel\ readexcel-mctreport\ReadDailyReportDB\obj\x86\Debug\App.g.cs
+C:\trabalho\tools\read-excel\ readexcel-mctreport\ReadDailyReportDB\obj\x86\Debug\ReadDailyReportDB_MarkupCompile.cache
+C:\trabalho\tools\read-excel\ readexcel-mctreport\ReadDailyReportDB\obj\x86\Debug\ReadDailyReportDB.g.resources
+C:\trabalho\tools\read-excel\ readexcel-mctreport\ReadDailyReportDB\obj\x86\Debug\ReadDailyReportDB.Properties.Resources.resources
+C:\trabalho\tools\read-excel\ readexcel-mctreport\ReadDailyReportDB\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\trabalho\tools\read-excel\ readexcel-mctreport\ReadDailyReportDB\obj\x86\Debug\GenerateResource.write.1.tlog
+C:\trabalho\tools\read-excel\ readexcel-mctreport\ReadDailyReportDB\bin\Debug\ReadDailyReportDB.exe
+C:\trabalho\tools\read-excel\ readexcel-mctreport\ReadDailyReportDB\bin\Debug\ReadDailyReportDB.pdb
+C:\trabalho\tools\read-excel\ readexcel-mctreport\ReadDailyReportDB\bin\Debug\MySql.Data.dll
+C:\trabalho\tools\read-excel\ readexcel-mctreport\ReadDailyReportDB\obj\x86\Debug\ReadDailyReportDB.exe
+C:\trabalho\tools\read-excel\ readexcel-mctreport\ReadDailyReportDB\obj\x86\Debug\ReadDailyReportDB.pdb
+C:\bkp-outromicro\trabalho\tools\read-excel\ readexcel-mctreport\ReadDailyReportDB\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\bkp-outromicro\trabalho\tools\read-excel\ readexcel-mctreport\ReadDailyReportDB\obj\x86\Debug\MainWindow.baml
+C:\bkp-outromicro\trabalho\tools\read-excel\ readexcel-mctreport\ReadDailyReportDB\obj\x86\Debug\MainWindow.g.cs
+C:\bkp-outromicro\trabalho\tools\read-excel\ readexcel-mctreport\ReadDailyReportDB\obj\x86\Debug\App.g.cs
+C:\bkp-outromicro\trabalho\tools\read-excel\ readexcel-mctreport\ReadDailyReportDB\obj\x86\Debug\ReadDailyReportDB_MarkupCompile.cache
+C:\bkp-outromicro\trabalho\tools\read-excel\ readexcel-mctreport\ReadDailyReportDB\obj\x86\Debug\ReadDailyReportDB.g.resources
+C:\bkp-outromicro\trabalho\tools\read-excel\ readexcel-mctreport\ReadDailyReportDB\obj\x86\Debug\ReadDailyReportDB.Properties.Resources.resources
+C:\bkp-outromicro\trabalho\tools\read-excel\ readexcel-mctreport\ReadDailyReportDB\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\bkp-outromicro\trabalho\tools\read-excel\ readexcel-mctreport\ReadDailyReportDB\obj\x86\Debug\GenerateResource.write.1.tlog
+C:\bkp-outromicro\trabalho\tools\read-excel\ readexcel-mctreport\ReadDailyReportDB\obj\x86\Debug\ReadDailyReportDB.exe
+C:\bkp-outromicro\trabalho\tools\read-excel\ readexcel-mctreport\ReadDailyReportDB\obj\x86\Debug\ReadDailyReportDB.pdb
+C:\bkp-outromicro\trabalho\tools\read-excel\ readexcel-mctreport\ReadDailyReportDB\bin\Debug\ReadDailyReportDB.exe
+C:\bkp-outromicro\trabalho\tools\read-excel\ readexcel-mctreport\ReadDailyReportDB\bin\Debug\ReadDailyReportDB.pdb
+C:\trabalho\tools\read-excel\readexcel-mctreport\ReadDailyReportDB\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\trabalho\tools\read-excel\readexcel-mctreport\ReadDailyReportDB\obj\x86\Debug\MainWindow.baml
+C:\trabalho\tools\read-excel\readexcel-mctreport\ReadDailyReportDB\obj\x86\Debug\MainWindow.g.cs
+C:\trabalho\tools\read-excel\readexcel-mctreport\ReadDailyReportDB\obj\x86\Debug\ReadDailyReportDB_MarkupCompile.cache
+C:\trabalho\tools\read-excel\readexcel-mctreport\ReadDailyReportDB\obj\x86\Debug\ReadDailyReportDB.exe
+C:\trabalho\tools\read-excel\readexcel-mctreport\ReadDailyReportDB\obj\x86\Debug\ReadDailyReportDB.pdb
+C:\trabalho\tools\read-excel\readexcel-mctreport\ReadDailyReportDB\obj\x86\Debug\App.g.cs
+C:\trabalho\tools\read-excel\readexcel-mctreport\ReadDailyReportDB\obj\x86\Debug\ReadDailyReportDB.g.resources
+C:\trabalho\tools\read-excel\readexcel-mctreport\ReadDailyReportDB\obj\x86\Debug\ReadDailyReportDB.Properties.Resources.resources
+C:\trabalho\tools\read-excel\readexcel-mctreport\ReadDailyReportDB\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\trabalho\tools\read-excel\readexcel-mctreport\ReadDailyReportDB\obj\x86\Debug\GenerateResource.write.1.tlog
+C:\trabalho\tools\read-excel\readexcel-mctreport\ReadDailyReportDB\bin\Debug\ReadDailyReportDB.exe
+C:\trabalho\tools\read-excel\readexcel-mctreport\ReadDailyReportDB\bin\Debug\ReadDailyReportDB.pdb
+C:\trabalho\tools\readexcel-mctreport\ readexcel-mctreport\ReadDailyReportDB\bin\Debug\ReadDailyReportDB.exe
+C:\trabalho\tools\readexcel-mctreport\ readexcel-mctreport\ReadDailyReportDB\bin\Debug\ReadDailyReportDB.pdb
+C:\trabalho\tools\readexcel-mctreport\ readexcel-mctreport\ReadDailyReportDB\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\trabalho\tools\readexcel-mctreport\ readexcel-mctreport\ReadDailyReportDB\obj\x86\Debug\MainWindow.baml
+C:\trabalho\tools\readexcel-mctreport\ readexcel-mctreport\ReadDailyReportDB\obj\x86\Debug\MainWindow.g.cs
+C:\trabalho\tools\readexcel-mctreport\ readexcel-mctreport\ReadDailyReportDB\obj\x86\Debug\App.g.cs
+C:\trabalho\tools\readexcel-mctreport\ readexcel-mctreport\ReadDailyReportDB\obj\x86\Debug\ReadDailyReportDB_MarkupCompile.cache
+C:\trabalho\tools\readexcel-mctreport\ readexcel-mctreport\ReadDailyReportDB\obj\x86\Debug\ReadDailyReportDB.g.resources
+C:\trabalho\tools\readexcel-mctreport\ readexcel-mctreport\ReadDailyReportDB\obj\x86\Debug\ReadDailyReportDB.Properties.Resources.resources
+C:\trabalho\tools\readexcel-mctreport\ readexcel-mctreport\ReadDailyReportDB\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\trabalho\tools\readexcel-mctreport\ readexcel-mctreport\ReadDailyReportDB\obj\x86\Debug\GenerateResource.write.1.tlog
+C:\trabalho\tools\readexcel-mctreport\ readexcel-mctreport\ReadDailyReportDB\obj\x86\Debug\ReadDailyReportDB.exe
+C:\trabalho\tools\readexcel-mctreport\ readexcel-mctreport\ReadDailyReportDB\obj\x86\Debug\ReadDailyReportDB.pdb

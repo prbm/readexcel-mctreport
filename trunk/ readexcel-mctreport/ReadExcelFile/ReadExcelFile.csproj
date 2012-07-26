@@ -90,7 +90,9 @@
     <Compile Include="ProjectCAStatus.cs" />
     <Compile Include="ProjectCourseCarrier.cs" />
     <Compile Include="ProjectDB.cs" />
+    <Compile Include="ProjectReportedHours.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReportHours.cs" />
     <Compile Include="Subsidiary.cs" />
     <Compile Include="WriteExcel.cs" />
     <EmbeddedResource Include="frmManMonthGenerator.resx">
@@ -128,6 +130,15 @@
       <VersionMinor>8</VersionMinor>
       <Lcid>0</Lcid>
       <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="Microsoft.Office.Core">
+      <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>4</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>

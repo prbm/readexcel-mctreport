@@ -48,7 +48,7 @@ namespace ReadExcelFile
                 if (conn != null)
                 {
                     conn.Open();
-                    MessageBox.Show("Conectou");
+                    //MessageBox.Show("Conectou");
                     return true;
                 }
                 else
@@ -77,7 +77,7 @@ namespace ReadExcelFile
                 if (conn != null)
                 {
                     conn.Close();
-                    MessageBox.Show("Desconectou");
+                    //MessageBox.Show("Desconectou");
                     return true;
                 }
                 else
@@ -164,6 +164,17 @@ namespace ReadExcelFile
                     m.IdCarrier = Convert.ToInt32(dr.GetValue(0));
                     m.IdCountry = Convert.ToInt32(dr.GetValue(1));
                     m.Name = ((String)dr.GetValue(2)).Trim();
+
+                    result.Add(m);
+                }
+                else if (t.Name.ToString().Equals("ProjectReportedHours"))
+                {
+                    ProjectReportedHours m = new ProjectReportedHours();
+                    m.ProjectId = Convert.ToInt32(dr.GetValue(1));
+                    m.AmountReported = ((TimeSpan)dr.GetValue(3)).TotalHours;
+                    m.EmployeeId = Convert.ToInt32(dr.GetValue(13));
+                    m.Month = ((DateTime)dr.GetValue(14)).Month;
+                    m.Year = ((DateTime)dr.GetValue(14)).Year;
 
                     result.Add(m);
                 }
