@@ -36,10 +36,10 @@
   <ItemGroup>
     <Reference Include="MySql.Data, Version=1.0.10.1, Culture=neutral, PublicKeyToken=c5687fc88969c44d">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\tools\MySQL\MySQL Connector Net 1.0.10.1\Binaries\.NET 1.1\MySql.Data.dll</HintPath>
+      <HintPath>..\..\..\..\..\tools\MySQL\NETConnector\Assemblies\v4.0\MySql.Data.dll</HintPath>
     </Reference>
     <Reference Include="Npgsql">
-      <HintPath>..\..\..\..\..\tools\PostrGreSQL9\add-ons\Npgsql\ms.net4.0\Npgsql.dll</HintPath>
+      <HintPath>..\..\..\..\..\tools\PostgreSQL\drivers\ms.net4.0\Npgsql.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
