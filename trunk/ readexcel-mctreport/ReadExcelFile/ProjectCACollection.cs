@@ -21,7 +21,7 @@ namespace ReadExcelFile
             if( pCA!=null)
                 throw new Exception ("The ProjectCA object informed was null");
 
-            if (pCA.Id == 0 || pCA.ProjectCode == null || pCA.CarrierName == null || pCA.CountryName == null || pCA.Subsidiary == null || pCA.PdStatusProject == null)
+            if (pCA.Id == 0 || pCA.ProjectCode == null || pCA.CarrierName == null || pCA.CountryName == null || pCA.Subsidiary == null || pCA.PdStatusProject == 0)
                 throw new Exception("The data members of ProjectCA informed CAN NOT be null or 0!");
 
             this.List.Add(pCA);
