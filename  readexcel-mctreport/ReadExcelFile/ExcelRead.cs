@@ -415,7 +415,7 @@ namespace ReadExcelFile
                  ******************************/
                 // write date to the spreadsheet
                 xlWorkSheet.Name = "BASIC MAN MONTH REPORT";
-                Excel.Range xlRange = xlWorkSheet.get_Range("A1", "L" + modelList.Count.ToString());
+                Excel.Range xlRange = xlWorkSheet.get_Range("A1", "M" + modelList.Count.ToString());
                 Int32 row = 2;
                 // set column heads
                 xlRange = xlWorkSheet.get_Range("A1", "A1");
@@ -433,19 +433,24 @@ namespace ReadExcelFile
                 xlRange = xlWorkSheet.get_Range("G1", "G1");
                 xlRange.Value = "LSI";
                 xlRange = xlWorkSheet.get_Range("H1", "H1");
-                xlRange.Value = "PVG";
+                xlRange.Value = "PVG R&D";
                 xlRange = xlWorkSheet.get_Range("I1", "I1");
-                xlRange.Value = "TAM";
+                xlRange.Value = "PVG NOT R&D";
                 xlRange = xlWorkSheet.get_Range("J1", "J1");
-                xlRange.Value = "BRISA";
+                xlRange.Value = "TAM";
                 xlRange = xlWorkSheet.get_Range("K1", "K1");
-                xlRange.Value = "Subsidiary";
+                xlRange.Value = "BRISA";
                 xlRange = xlWorkSheet.get_Range("L1", "L1");
+                xlRange.Value = "Subsidiary";
+                xlRange = xlWorkSheet.get_Range("M1", "M1");
                 xlRange.Value = "Code";
 
                 // fulfill all the rows
                 foreach (Model model in modelList)
                 {
+                    // flags if the project is a R&D Project or not according MCT rules
+                    bool rdProject = false;
+
                     xlRange = xlWorkSheet.get_Range("A" + row.ToString(), "A" + row.ToString());
                     xlRange.Value = model.ModelCode.ToString();
                     xlRange = xlWorkSheet.get_Range("B" + row.ToString(), "B" + row.ToString());
@@ -454,6 +459,10 @@ namespace ReadExcelFile
                     xlRange.Value = model.ModelCA.CarrierName.ToString();
                     xlRange = xlWorkSheet.get_Range("D" + row.ToString(), "D" + row.ToString());
                     xlRange.Value = model.ModelCA.ProjectStatus;
+
+                    if (model.ModelCA.ListReportedHours.Find(delegate(ReportHours rh) { return (rh.TeamName.Equals("SW") || rh.TeamName.Equals("UFC") || rh.TeamName.Equals("LSI")); })!=null) 
+                        rdProject = true;
+
                     foreach (ReportHours rh in model.ModelCA.ListReportedHours)
                     {
                         if(rh.TeamName.Equals("SW"))
@@ -463,19 +472,24 @@ namespace ReadExcelFile
                         else if (rh.TeamName.Equals("LSI"))
                             xlRange = xlWorkSheet.get_Range("G" + row.ToString(), "G" + row.ToString());
                         else if (rh.TeamName.Equals("PVG"))
-                            xlRange = xlWorkSheet.get_Range("H" + row.ToString(), "H" + row.ToString());
+                        {
+                            if(rdProject)
+                                xlRange = xlWorkSheet.get_Range("H" + row.ToString(), "H" + row.ToString());
+                            else
+                                xlRange = xlWorkSheet.get_Range("I" + row.ToString(), "I" + row.ToString());
+                        }
                         else if (rh.TeamName.Equals("TAM"))
-                            xlRange = xlWorkSheet.get_Range("I" + row.ToString(), "I" + row.ToString());
-                        else if (rh.TeamName.Equals("BRISA"))
                             xlRange = xlWorkSheet.get_Range("J" + row.ToString(), "J" + row.ToString());
+                        else if (rh.TeamName.Equals("BRISA"))
+                            xlRange = xlWorkSheet.get_Range("K" + row.ToString(), "K" + row.ToString());
                         
                         xlRange.NumberFormat = "0.000";
                         xlRange.Value = rh.ReportedTime;
                     }
 
-                    xlRange = xlWorkSheet.get_Range("K" + row.ToString(), "K" + row.ToString());
-                    xlRange.Value = model.ModelCA.Subsidiary;
                     xlRange = xlWorkSheet.get_Range("L" + row.ToString(), "L" + row.ToString());
+                    xlRange.Value = model.ModelCA.Subsidiary;
+                    xlRange = xlWorkSheet.get_Range("M" + row.ToString(), "M" + row.ToString());
                     xlRange.Value = model.ProjectCode;
 
                     row++;
