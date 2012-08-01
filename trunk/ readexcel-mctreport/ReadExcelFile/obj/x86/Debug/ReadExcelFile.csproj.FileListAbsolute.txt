@@ -40,15 +40,6 @@ C:\trabalho\tools\readexcel-mctreport\ readexcel-mctreport\ReadExcelFile\obj\x86
 C:\trabalho\tools\readexcel-mctreport\ readexcel-mctreport\ReadExcelFile\obj\x86\Debug\ReadExcelFile.pdb
 C:\trabalho\tools\readexcel-mctreport\ readexcel-mctreport\ReadExcelFile\bin\Debug\ReadExcelFile.exe
 C:\trabalho\tools\readexcel-mctreport\ readexcel-mctreport\ReadExcelFile\bin\Debug\ReadExcelFile.pdb
-C:\trabalho\tools\readexcel-mctreport\ readexcel-mctreport\ReadExcelFile\bin\Debug\Mono.Security.dll
-C:\trabalho\tools\readexcel-mctreport\ readexcel-mctreport\ReadExcelFile\bin\Debug\Npgsql.pdb
-C:\trabalho\tools\readexcel-mctreport\ readexcel-mctreport\ReadExcelFile\bin\Debug\Npgsql.xml
-C:\trabalho\tools\readexcel-mctreport\ readexcel-mctreport\ReadExcelFile\bin\Debug\de\Npgsql.resources.dll
-C:\trabalho\tools\readexcel-mctreport\ readexcel-mctreport\ReadExcelFile\bin\Debug\es\Npgsql.resources.dll
-C:\trabalho\tools\readexcel-mctreport\ readexcel-mctreport\ReadExcelFile\bin\Debug\fi\Npgsql.resources.dll
-C:\trabalho\tools\readexcel-mctreport\ readexcel-mctreport\ReadExcelFile\bin\Debug\fr\Npgsql.resources.dll
-C:\trabalho\tools\readexcel-mctreport\ readexcel-mctreport\ReadExcelFile\bin\Debug\ja\Npgsql.resources.dll
-C:\trabalho\tools\readexcel-mctreport\ readexcel-mctreport\ReadExcelFile\bin\Debug\zh-CN\Npgsql.resources.dll
 C:\trabalho\tools\readexcel-mctreport\ readexcel-mctreport\ReadExcelFile\obj\x86\Debug\ResolveAssemblyReference.cache
 C:\trabalho\tools\readexcel-mctreport\ readexcel-mctreport\ReadExcelFile\obj\x86\Debug\ReadExcelFile.frmManMonthGenerator.resources
 C:\trabalho\tools\readexcel-mctreport\ readexcel-mctreport\ReadExcelFile\obj\x86\Debug\ReadExcelFile.frmPreviewExcel.resources
