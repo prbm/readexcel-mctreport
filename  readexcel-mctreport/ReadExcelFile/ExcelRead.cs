@@ -321,19 +321,13 @@ namespace ReadExcelFile
                             // if a project already exists, update the value of manmonth for the project
                             ca.ListReportedHours = tmpModel.ModelCA.ListReportedHours;
 
-                            ReportHours rH = null;
-                            if (excelWSheet.Name.ToUpper().Equals("TAM"))
-                                rH = ca.ListReportedHours.Find(delegate(ReportHours rh) { return rh.TeamName.ToUpper().Equals("TAM"); });
-                            else if (excelWSheet.Name.ToUpper().Equals("PVG"))
-                                rH = ca.ListReportedHours.Find(delegate(ReportHours rh) { return rh.TeamName.ToUpper().Equals("PVG"); });
-
+                            ReportHours rH = ca.ListReportedHours.Find(delegate(ReportHours rh) { return rh.TeamName.ToUpper().Equals(excelWSheet.Name.ToUpper()); });
                             if (rH != null)
                                 ca.setRepHour((ca.MediumManMonth + rH.ReportedTime), excelWSheet.Name);
                             else
                                 ca.setRepHour(ca.MediumManMonth, excelWSheet.Name);
                             
                             ca.MediumManMonth += tmpModel.ModelCA.MediumManMonth;
-                            
                             modelList.Remove(tmpModel);
                             tmpModel.ModelCA = ca;
                             modelList.Add(tmpModel);
