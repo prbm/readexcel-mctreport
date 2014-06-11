@@ -14,6 +14,9 @@ namespace ReadExcelFile
             this.name = "NO CARRIER NAME";
             String[] tmp;
 
+            // includes test variable, not consider in future releases
+            String blablabla = "bla";
+
             // if there is no content, abort it
             if (name.Trim().Length < 1)
                 return;
